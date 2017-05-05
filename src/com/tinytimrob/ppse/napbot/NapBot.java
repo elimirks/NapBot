@@ -73,7 +73,7 @@ public class NapBot extends Application
 		// Connect to Discord
 		//=================================
 		jda = new JDABuilder(AccountType.BOT).setToken(CONFIGURATION.authToken).buildBlocking();
-		jda.getPresence().setGame(new GameImpl("Type +help", null, GameType.DEFAULT));
+		jda.getPresence().setGame(new GameImpl("Type " + NapBot.CONFIGURATION.messagePrefix + "help", null, GameType.DEFAULT));
 		jda.addEventListener(new NapBotListener());
 
 		//=================================
