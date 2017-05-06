@@ -1,11 +1,14 @@
 package com.tinytimrob.ppse.napbot;
 
+import java.util.concurrent.ConcurrentHashMap;
 import org.apache.logging.log4j.Logger;
 import com.tinytimrob.common.Application;
 import com.tinytimrob.common.CommonUtils;
 import com.tinytimrob.common.Configuration;
 import com.tinytimrob.common.LogWrapper;
+import com.tinytimrob.ppse.napbot.commands.CommandGet;
 import com.tinytimrob.ppse.napbot.commands.CommandHelp;
+import com.tinytimrob.ppse.napbot.commands.CommandSet;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -26,6 +29,9 @@ public class NapBot extends Application
 
 	/** Whether or not the bot should shut down */
 	static volatile boolean shuttingDown = false;
+
+	/** User to napchart lookup table. Temporary, until I can be bothered to store it in a less awful way */
+	public static ConcurrentHashMap<String, String> userIdToNapchart = new ConcurrentHashMap<String, String>();
 
 	/**
 	 * Entry point
@@ -68,6 +74,8 @@ public class NapBot extends Application
 		// Register commands in the order you want them shown in +help
 		//=================================
 		NapBotListener.register(new CommandHelp());
+		NapBotListener.register(new CommandGet());
+		NapBotListener.register(new CommandSet());
 
 		//=================================
 		// Connect to Discord

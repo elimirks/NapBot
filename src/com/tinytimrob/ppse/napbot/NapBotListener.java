@@ -40,17 +40,17 @@ public class NapBotListener extends ListenerAdapter
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event)
 	{
+		if (event.getAuthor().getIdLong() == event.getAuthor().getJDA().getSelfUser().getIdLong())
+		{
+			// don't respond to your own messages you silly bot
+			return;
+		}
 		try
 		{
-			if (event.getAuthor().getIdLong() == event.getAuthor().getJDA().getSelfUser().getIdLong())
-			{
-				// don't respond to your own messages you silly bot
-				return;
-			}
-			else if (event.isFromType(ChannelType.PRIVATE))
+			if (event.isFromType(ChannelType.PRIVATE))
 			{
 				log.info("PRIVATE/{}: {}", event.getAuthor().getName(), event.getMessage().getRawContent());
-				event.getChannel().sendMessage("I haven't been programmed to respond to private messages O_O").queue();
+				event.getChannel().sendMessage("I haven't been programmed to respond to private messages O_O").complete();
 			}
 			else if (event.isFromType(ChannelType.TEXT))
 			{
@@ -66,17 +66,17 @@ public class NapBotListener extends ListenerAdapter
 					ICommand icommand = commands.get(command.toLowerCase(Locale.ENGLISH));
 					if (icommand == null)
 					{
-						channel.sendMessage("Unknown command: " + NapBot.CONFIGURATION.messagePrefix + command).queue();
+						channel.sendMessage("Unknown command: " + NapBot.CONFIGURATION.messagePrefix + command).complete();
 						return;
 					}
 					if (!icommand.hasPermission(author))
 					{
-						channel.sendMessage("You don't have permission to execute that command").queue();
+						channel.sendMessage("You don't have permission to execute that command").complete();
 						return;
 					}
 					if (!icommand.execute(author, channel, command, split))
 					{
-						channel.sendMessage("You're using that command incorrectly. Usage is as follows:\n" + NapBot.CONFIGURATION.messagePrefix + icommand.getCommandHelpUsage()).queue();
+						channel.sendMessage("You're using that command incorrectly. Usage is as follows:\n" + NapBot.CONFIGURATION.messagePrefix + icommand.getCommandHelpUsage()).complete();
 						return;
 					}
 				}
@@ -84,6 +84,7 @@ public class NapBotListener extends ListenerAdapter
 		}
 		catch (Throwable t)
 		{
+			event.getChannel().sendMessage("An internal error occurred and I wasn't able to process that command. Please ask <@147356941860077568> to investigate").complete();
 			t.printStackTrace();
 		}
 	}
