@@ -49,7 +49,7 @@ public class CommandHelp implements ICommand
 				}
 			}
 		}
-		channel.sendMessage("--- NapBot help ---\n" + StringUtils.join(output, '\n')).complete();
+		channel.sendMessage("--- Nap God help ---\n" + StringUtils.join(output, '\n')).complete();
 		return true;
 	}
 

@@ -51,7 +51,7 @@ public class NapBot extends Application
 	@Override
 	protected String getName()
 	{
-		return "NapBot";
+		return "NapGod";
 	}
 
 	@Override
@@ -99,6 +99,7 @@ public class NapBot extends Application
 		//=================================
 		jda = new JDABuilder(AccountType.BOT).setToken(CONFIGURATION.authToken).buildBlocking();
 		jda.getPresence().setGame(new GameImpl("Type " + NapBot.CONFIGURATION.messagePrefix + "help", null, GameType.DEFAULT));
+		jda.getSelfUser().getManager().setName("Nap God").complete();
 		jda.addEventListener(new NapBotListener());
 
 		//=================================
