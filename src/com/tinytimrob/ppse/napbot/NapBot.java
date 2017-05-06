@@ -1,5 +1,8 @@
 package com.tinytimrob.ppse.napbot;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.concurrent.ConcurrentHashMap;
 import org.apache.logging.log4j.Logger;
 import com.tinytimrob.common.Application;
@@ -29,6 +32,9 @@ public class NapBot extends Application
 
 	/** Whether or not the bot should shut down */
 	static volatile boolean shuttingDown = false;
+
+	/** Database connecton */
+	public static Connection connection = null;
 
 	/** User to napchart lookup table. Temporary, until I can be bothered to store it in a less awful way */
 	public static ConcurrentHashMap<String, String> userIdToNapchart = new ConcurrentHashMap<String, String>();
@@ -76,6 +82,17 @@ public class NapBot extends Application
 		NapBotListener.register(new CommandHelp());
 		NapBotListener.register(new CommandGet());
 		NapBotListener.register(new CommandSet());
+
+		//=================================
+		// Connect to database
+		//=================================
+		connection = DriverManager.getConnection("jdbc:sqlite:napbot.db");
+		// create napchart table if it doesn't exist
+		{
+			Statement s = connection.createStatement();
+			s.executeUpdate("CREATE TABLE IF NOT EXISTS napcharts (id TEXT PRIMARY KEY NOT NULL, link TEXT)");
+			s.close();
+		}
 
 		//=================================
 		// Connect to Discord

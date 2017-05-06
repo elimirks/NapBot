@@ -1,5 +1,7 @@
 package com.tinytimrob.ppse.napbot.commands;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -86,9 +88,12 @@ public class CommandSet implements ICommand
 		}
 	}
 
-	private void setNapchart(User user, TextChannel channel, String napchart)
+	private void setNapchart(User user, TextChannel channel, String napchart) throws SQLException
 	{
-		NapBot.userIdToNapchart.put(user.getId(), napchart);
+		PreparedStatement ps = NapBot.connection.prepareStatement("INSERT OR REPLACE INTO napcharts (id, link) VALUES (?, ?)");
+		ps.setLong(1, user.getIdLong());
+		ps.setString(2, napchart);
+		ps.executeUpdate();
 	}
 
 	private NapSchedule setSchedule(User user, TextChannel channel, String scheduleString)

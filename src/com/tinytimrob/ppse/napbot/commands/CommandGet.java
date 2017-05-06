@@ -1,5 +1,7 @@
 package com.tinytimrob.ppse.napbot.commands;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
@@ -55,7 +57,6 @@ public class CommandGet implements ICommand
 					{
 						s = s.substring(0, s.lastIndexOf(" ["));
 					}
-
 					if (s.equalsIgnoreCase(match))
 					{
 						matchingUsers.add(member.getUser());
@@ -69,13 +70,6 @@ public class CommandGet implements ICommand
 						matchingUsers.add(member.getUser());
 					}
 				}
-			}
-
-			// temp
-			System.out.println("matched " + matchingUsers.size());
-			for (User x : matchingUsers)
-			{
-				System.out.println(x.getName() + "#" + x.getDiscriminator());
 			}
 
 			if (matchingUsers.isEmpty())
@@ -103,14 +97,18 @@ public class CommandGet implements ICommand
 		{
 			matchedUser = user;
 		}
-		String napchartLocation = NapBot.userIdToNapchart.get(matchedUser.getId());
-		if (napchartLocation == null)
+
+		PreparedStatement ps = NapBot.connection.prepareStatement("SELECT * FROM napcharts WHERE id = ? LIMIT 1");
+		ps.setLong(1, matchedUser.getIdLong());
+		ResultSet rs = ps.executeQuery();
+		if (rs.next())
 		{
-			channel.sendMessage("There is no napchart available for **" + matchedUser.getName() + "#" + matchedUser.getDiscriminator() + "**").complete();
+			String napchartLocation = rs.getString("link");
+			channel.sendMessage("Napchart for **" + matchedUser.getName() + "#" + matchedUser.getDiscriminator() + "**: " + napchartLocation).complete();
 		}
 		else
 		{
-			channel.sendMessage("Napchart for **" + matchedUser.getName() + "#" + matchedUser.getDiscriminator() + "**: " + napchartLocation).complete();
+			channel.sendMessage("There is no napchart available for **" + matchedUser.getName() + "#" + matchedUser.getDiscriminator() + "**").complete();
 		}
 		return true;
 	}

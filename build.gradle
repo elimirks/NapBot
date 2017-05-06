@@ -4,7 +4,7 @@ apply plugin: 'idea'
 sourceCompatibility = 1.7
 
 repositories {
-    jcenter()
+	jcenter()
 	mavenCentral()
 	maven {
 		url "https://maven.ginever.net/"
@@ -37,4 +37,5 @@ dependencies {
 	compile 'org.apache.logging.log4j:log4j-jul:2.2'
 	compile 'com.google.code.gson:gson:2.3.1'
 	compile 'net.dv8tion:JDA:3.0.0_191'
+	compile 'org.xerial:sqlite-jdbc:3.16.1'
 }
