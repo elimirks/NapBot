@@ -168,7 +168,7 @@ public class CommandSet implements ICommand
 	@Override
 	public String getCommandHelpUsage()
 	{
-		return "set [name] [napchart-link]";
+		return "set [schedule-name] [napchart-link]";
 	}
 
 	@Override

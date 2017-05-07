@@ -28,18 +28,14 @@ public class CommandGet implements ICommand
 	public boolean execute(User user, TextChannel channel, String command, List<String> parameters) throws Exception
 	{
 		User matchedUser = null;
-		if (parameters.size() > 1)
-		{
-			return false;
-		}
-		else if (parameters.size() == 1)
+		if (!parameters.isEmpty())
 		{
 			List<User> matchingUsers = new ArrayList<User>();
-			String match = parameters.get(0);
-			if (match.startsWith("<@") && match.contains(">"))
+			String match = StringUtils.join(parameters, " ");
+			if (match.startsWith("<@!") && match.contains(">"))
 			{
 				// match based on @mention
-				String id = match.substring(match.indexOf("<@" + 2, match.indexOf(">")));
+				String id = match.substring(match.indexOf("<@") + 3, match.indexOf(">"));
 				Member member = channel.getGuild().getMemberById(id);
 				if (member != null)
 				{
@@ -116,7 +112,7 @@ public class CommandGet implements ICommand
 	@Override
 	public String getCommandHelpUsage()
 	{
-		return "get [name]";
+		return "get [username]";
 	}
 
 	@Override

@@ -51,7 +51,7 @@ public class NapBot extends Application
 	@Override
 	protected String getName()
 	{
-		return "NapGod";
+		return "Nap God";
 	}
 
 	@Override
