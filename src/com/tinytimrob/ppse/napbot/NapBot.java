@@ -3,12 +3,12 @@ package com.tinytimrob.ppse.napbot;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
-import java.util.concurrent.ConcurrentHashMap;
 import org.apache.logging.log4j.Logger;
 import com.tinytimrob.common.Application;
 import com.tinytimrob.common.CommonUtils;
 import com.tinytimrob.common.Configuration;
 import com.tinytimrob.common.LogWrapper;
+import com.tinytimrob.common.TerminationReason;
 import com.tinytimrob.ppse.napbot.commands.CommandGet;
 import com.tinytimrob.ppse.napbot.commands.CommandHelp;
 import com.tinytimrob.ppse.napbot.commands.CommandSet;
@@ -31,13 +31,10 @@ public class NapBot extends Application
 	static JDA jda = null;
 
 	/** Whether or not the bot should shut down */
-	static volatile boolean shuttingDown = false;
+	static volatile TerminationReason terminationReason = null;
 
 	/** Database connecton */
 	public static Connection connection = null;
-
-	/** User to napchart lookup table. Temporary, until I can be bothered to store it in a less awful way */
-	public static ConcurrentHashMap<String, String> userIdToNapchart = new ConcurrentHashMap<String, String>();
 
 	/**
 	 * Entry point
@@ -64,7 +61,7 @@ public class NapBot extends Application
 	public static NapBotConfiguration CONFIGURATION;
 
 	@Override
-	protected void run() throws Exception
+	protected TerminationReason run() throws Exception
 	{
 		//=================================
 		// Load JDA
@@ -73,7 +70,7 @@ public class NapBot extends Application
 		if (CommonUtils.isNullOrEmpty(CONFIGURATION.authToken))
 		{
 			log.error("You need to specify your bot's authToken in the configuration file in order for NapBot to work");
-			return;
+			return TerminationReason.STOP;
 		}
 
 		//=================================
@@ -105,7 +102,7 @@ public class NapBot extends Application
 		//=================================
 		// Wait for shutdown
 		//=================================
-		while (!shuttingDown)
+		while (terminationReason == null)
 		{
 			try
 			{
@@ -117,6 +114,7 @@ public class NapBot extends Application
 				// *shrug*
 			}
 		}
+		return terminationReason;
 	}
 
 	@Override

@@ -11,10 +11,11 @@ public abstract class Application
 	 */
 	public static void execute(Application application)
 	{
+		TerminationReason tr = null;
 		try
 		{
 			Logging.initialize(application);
-			application.run();
+			tr = application.run();
 		}
 		catch (Throwable t)
 		{
@@ -33,7 +34,7 @@ public abstract class Application
 				t.printStackTrace();
 			}
 		}
-		System.exit(0); // makes sure the program closes no matter what
+		System.exit(tr == null ? 0 : tr.code); // makes sure the program closes no matter what
 	}
 
 	/**
@@ -48,9 +49,10 @@ public abstract class Application
 
 	/**
 	 * Runs the logic for the application 
+	 * @return The reason why the running of the application ended
 	 * @throws Exception If the application messes up in any way
 	 */
-	protected abstract void run() throws Exception;
+	protected abstract TerminationReason run() throws Exception;
 
 	/**
 	 * Cleans up the application
