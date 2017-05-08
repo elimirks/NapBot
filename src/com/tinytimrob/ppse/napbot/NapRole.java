@@ -6,7 +6,7 @@ public enum NapRole
 	DUAL_CORE("Dual Core"), //
 	EVERYMAN("Everyman"), //
 	BIPHASIC("Biphasic"), //
-	RANDOM("Random"), //
+	EXPERIMENTAL("Experimental"), //
 	MONOPHASIC("Monophasic");
 
 	public final String name;
