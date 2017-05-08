@@ -10,6 +10,7 @@ public enum NapSchedule
 	E2("E2", "Everyman 2", NapRole.EVERYMAN, true), //
 	E3("E3", "Everyman 3", NapRole.EVERYMAN, true), //
 	E4("E4", "Everyman 4", NapRole.EVERYMAN, true), //
+	NAPTATION("Naptation", "Naptation", NapRole.SUPERHUMAN, true), //
 	QUADPHASIC("Quadphasic", "Quadphasic", NapRole.DUAL_CORE, true), //
 	SPAMAYL("SPAMAYL", "SPAMAYL", NapRole.SUPERHUMAN, true), //
 	SEGMENTED("Segmented", "Segmented", NapRole.BIPHASIC, true), //
