@@ -40,19 +40,19 @@ public class CommandSet implements ICommand
 			if (this.NAPCHART_PATTERN.matcher(param).matches())
 			{
 				this.setNapchart(user, channel, param);
-				channel.sendMessage(user.getAsMention() + " Your napchart has been saved").complete();
+				channel.sendMessage(user.getAsMention() + " Your napchart has been saved.").complete();
 			}
 			else
 			{
 				NapSchedule newSchedule = this.setSchedule(user, channel, param);
 				if (newSchedule == null)
 				{
-					channel.sendMessage("'" + param + "' doesn't seem to be a valid sleep schedule or napchart link").complete();
-					return false;
+					channel.sendMessage("I don't know what you mean by `" + NapBot.CONFIGURATION.messagePrefix + "set " + param + "`. `" + param + "` doesn't seem to be a valid sleep schedule OR a valid napchart link.\n\n**If you are trying to change your sleep schedule:**\nTry specifying one of the following schedules: " + NapSchedule.getScheduleList() + ". If you don't see your schedule listed, or you are doing some variant (e.g. a modified/extended/underage version), select the closest option and then correct your nickname by hand.\n\n**If you are trying to change your napchart:**\nCheck to make sure the link you pasted is not malformed.\n\nFor more detailed usage instructions, type `+help`.").complete();
+					return true;
 				}
 				else
 				{
-					channel.sendMessage(user.getAsMention() + " Your sleep schedule has been set to " + newSchedule.longName).complete();
+					channel.sendMessage(user.getAsMention() + " Your sleep schedule has been set to " + newSchedule.longName + ".").complete();
 				}
 			}
 			return true;
@@ -63,21 +63,21 @@ public class CommandSet implements ICommand
 			String napchart = parameters.get(1);
 			if (!this.NAPCHART_PATTERN.matcher(napchart).matches())
 			{
-				channel.sendMessage("'" + napchart + "' doesn't seem to be a valid napchart link").complete();
-				return false;
+				channel.sendMessage("`" + napchart + "` doesn't seem to be a valid napchart link. Check to make sure the link you pasted is not malformed.").complete();
+				return true;
 			}
 			else
 			{
 				NapSchedule newSchedule = this.setSchedule(user, channel, schedule);
 				if (newSchedule == null)
 				{
-					channel.sendMessage("'" + schedule + "' doesn't seem to be a valid sleep schedule").complete();
-					return false;
+					channel.sendMessage("`" + schedule + "` doesn't seem to be a valid sleep schedule.\n\nTry specifying one of the following sleep schedules: " + NapSchedule.getScheduleList() + ". If you don't see your schedule listed, or you are doing some variant (e.g. a modified/extended/underage version), select the closest option and then correct your nickname by hand.\n\nIf you're already on the correct schedule and just want to set your napchart, you can do that by omitting the schedule name like so:\n`" + NapBot.CONFIGURATION.messagePrefix + "set " + napchart + "`\n\nFor more detailed usage instructions, type `+help`.").complete();
+					return true;
 				}
 				else
 				{
 					this.setNapchart(user, channel, napchart);
-					channel.sendMessage(user.getAsMention() + " Your sleep schedule has been set to " + newSchedule.longName + " and your napchart has been saved").complete();
+					channel.sendMessage(user.getAsMention() + " Your sleep schedule has been set to " + newSchedule.longName + " and your napchart has been saved.").complete();
 				}
 			}
 			return true;

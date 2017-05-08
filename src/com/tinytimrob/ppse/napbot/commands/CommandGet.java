@@ -27,19 +27,19 @@ public class CommandGet implements ICommand
 	@Override
 	public boolean execute(User user, TextChannel channel, String command, List<String> parameters) throws Exception
 	{
-		User matchedUser = null;
+		Member matchedMember = null;
 		if (!parameters.isEmpty())
 		{
-			List<User> matchingUsers = new ArrayList<User>();
+			List<Member> matchingMembers = new ArrayList<Member>();
 			String match = StringUtils.join(parameters, " ");
 			if (match.startsWith("<@!") && match.contains(">"))
 			{
 				// match based on @mention
-				String id = match.substring(match.indexOf("<@") + 3, match.indexOf(">"));
+				String id = match.substring(3, match.indexOf(">"));
 				Member member = channel.getGuild().getMemberById(id);
 				if (member != null)
 				{
-					matchingUsers.add(member.getUser());
+					matchingMembers.add(member);
 				}
 			}
 			else
@@ -49,62 +49,66 @@ public class CommandGet implements ICommand
 				for (Member member : channel.getGuild().getMembers())
 				{
 					String s = member.getEffectiveName();
-					if (s.contains(" ["))
+					if (s.contains("["))
 					{
-						s = s.substring(0, s.lastIndexOf(" ["));
+						s = s.substring(0, s.lastIndexOf("[")).trim();
 					}
 					if (s.equalsIgnoreCase(match))
 					{
-						matchingUsers.add(member.getUser());
+						matchingMembers.add(member);
 					}
 					else if (member.getUser().getName().equalsIgnoreCase(match))
 					{
-						matchingUsers.add(member.getUser());
+						matchingMembers.add(member);
 					}
 					else if ((member.getUser().getName() + "#" + member.getUser().getDiscriminator()).equalsIgnoreCase(match))
 					{
-						matchingUsers.add(member.getUser());
+						matchingMembers.add(member);
 					}
 				}
 			}
 
-			if (matchingUsers.isEmpty())
+			if (matchingMembers.isEmpty())
 			{
-				channel.sendMessage("I wasn't able to find anyone called '" + match + "' on the server.").complete();
+				channel.sendMessage("I wasn't able to find anyone called `" + match + "` on the server.").complete();
 				return true;
 			}
-			else if (matchingUsers.size() > 1)
+			else if (matchingMembers.size() > 1)
 			{
 				ArrayList<String> output = new ArrayList<String>();
-				output.add("Matched multiple users called '" + match + "'. Please choose one of the following:");
-				for (User x : matchingUsers)
+				output.add("Matched multiple users called `" + match + "`. Please choose one of the following:");
+				for (Member x : matchingMembers)
 				{
-					output.add(x.getName() + "#" + x.getDiscriminator());
+					output.add(x.getUser().getName() + "#" + x.getUser().getDiscriminator());
 				}
 				channel.sendMessage(StringUtils.join(output, '\n')).complete();
 				return true;
 			}
 			else
 			{
-				matchedUser = matchingUsers.get(0);
+				matchedMember = matchingMembers.get(0);
 			}
 		}
 		else
 		{
-			matchedUser = user;
+			matchedMember = channel.getGuild().getMember(user);
+		}
+		if (matchedMember == null)
+		{
+			throw new NullPointerException("Matched member was null");
 		}
 
 		PreparedStatement ps = NapBot.connection.prepareStatement("SELECT * FROM napcharts WHERE id = ? LIMIT 1");
-		ps.setLong(1, matchedUser.getIdLong());
+		ps.setLong(1, matchedMember.getUser().getIdLong());
 		ResultSet rs = ps.executeQuery();
 		if (rs.next())
 		{
 			String napchartLocation = rs.getString("link");
-			channel.sendMessage("Napchart for **" + matchedUser.getName() + "#" + matchedUser.getDiscriminator() + "**: " + napchartLocation).complete();
+			channel.sendMessage("Napchart for **" + matchedMember.getEffectiveName() + "**: " + napchartLocation).complete();
 		}
 		else
 		{
-			channel.sendMessage("There is no napchart available for **" + matchedUser.getName() + "#" + matchedUser.getDiscriminator() + "**").complete();
+			channel.sendMessage("There is no napchart available for **" + matchedMember.getEffectiveName() + "**.").complete();
 		}
 		return true;
 	}

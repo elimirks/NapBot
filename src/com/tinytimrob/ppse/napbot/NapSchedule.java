@@ -35,4 +35,14 @@ public enum NapSchedule
 		this.role = role;
 		this.appendToNick = appendToNick;
 	}
+
+	public static String getScheduleList()
+	{
+		String s = "";
+		for (NapSchedule schedule : NapSchedule.values())
+		{
+			s += (!s.isEmpty() ? " " : "") + "`" + schedule.name + "`";
+		}
+		return s;
+	}
 }

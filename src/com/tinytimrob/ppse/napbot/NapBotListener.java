@@ -66,7 +66,7 @@ public class NapBotListener extends ListenerAdapter
 					ICommand icommand = commands.get(command.toLowerCase(Locale.ENGLISH));
 					if (icommand == null)
 					{
-						channel.sendMessage("Unknown command: " + NapBot.CONFIGURATION.messagePrefix + command).complete();
+						channel.sendMessage("I don't know what you mean by `" + content + "`. If you're not sure what you're doing, try typing `+help`.").complete();
 						return;
 					}
 					if (!icommand.hasPermission(author))
@@ -76,7 +76,7 @@ public class NapBotListener extends ListenerAdapter
 					}
 					if (!icommand.execute(author, channel, command, split))
 					{
-						channel.sendMessage("You're using that command incorrectly. Usage is as follows:\n" + NapBot.CONFIGURATION.messagePrefix + icommand.getCommandHelpUsage()).complete();
+						channel.sendMessage("I don't know what you mean by `" + content + "`. If you're not sure what you're doing, try typing `+help`.").complete();
 						return;
 					}
 				}
