@@ -117,6 +117,13 @@ public class CommandSet implements ICommand
 			case "quad":
 				schedule = NapSchedule.QUADPHASIC;
 				break;
+			case "tricore":
+			case "tri-core":
+			case "prototype1":
+			case "prototype-1":
+			case "prototype_1":
+				schedule = NapSchedule.TRI_CORE;
+				break;
 			default:
 				break;
 			}

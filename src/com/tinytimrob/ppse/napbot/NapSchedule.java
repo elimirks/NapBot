@@ -19,7 +19,7 @@ public enum NapSchedule
 	TRIPHASIC("Triphasic", "Triphasic", NapRole.DUAL_CORE, true), //
 	UBERMAN("Uberman", "Uberman", NapRole.SUPERHUMAN, true), //
 	EXPERIMENTAL("Experimental", "Experimental", NapRole.EXPERIMENTAL, false), //
-	PROTOTYPE_1("Prototype_1", "Prototype 1", NapRole.EXPERIMENTAL, true), //
+	TRI_CORE("Tri_Core", "Tri Core", NapRole.EXPERIMENTAL, true), //
 	TRIMAXION("Trimaxion", "Trimaxion", NapRole.EXPERIMENTAL, true), //
 	ZOIDBERG("Zoidberg", "Zoidberg", NapRole.EXPERIMENTAL, true), //
 	MONOPHASIC("Monophasic", "Monophasic", NapRole.MONOPHASIC, false);
