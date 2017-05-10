@@ -21,7 +21,7 @@ public enum NapSchedule
 	EXPERIMENTAL("Experimental", "Experimental", NapRole.EXPERIMENTAL, false), //
 	TRI_CORE("Tri_Core", "Tri Core", NapRole.EXPERIMENTAL, true), //
 	TRIMAXION("Trimaxion", "Trimaxion", NapRole.EXPERIMENTAL, true), //
-	ZOIDBERG("Zoidberg", "Zoidberg", NapRole.EXPERIMENTAL, true), //
+//	ZOIDBERG("Zoidberg", "Zoidberg", NapRole.EXPERIMENTAL, true), //
 	MONOPHASIC("Monophasic", "Monophasic", NapRole.MONOPHASIC, false);
 
 	public final String name;
