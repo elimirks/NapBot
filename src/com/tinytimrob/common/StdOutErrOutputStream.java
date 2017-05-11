@@ -37,11 +37,21 @@ class StdOutErrOutputStream extends OutputStream
 			this.logger.log(this.logLevel, string);
 	}
 
+	String msg = "";
+
 	@Override
 	public void write(int b) throws IOException
 	{
 		String string = String.valueOf((char) b);
-		if (!string.trim().isEmpty())
-			this.logger.log(this.logLevel, string);
+		if (b == '\n' || b == '\r')
+		{
+			if (!this.msg.trim().isEmpty())
+				this.logger.log(this.logLevel, this.msg);
+			this.msg = "";
+		}
+		else
+		{
+			this.msg += string;
+		}
 	}
 }

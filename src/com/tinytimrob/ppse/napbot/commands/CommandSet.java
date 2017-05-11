@@ -1,5 +1,6 @@
 package com.tinytimrob.ppse.napbot.commands;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.regex.Pattern;
 import com.tinytimrob.ppse.napbot.NapBot;
 import com.tinytimrob.ppse.napbot.NapRole;
 import com.tinytimrob.ppse.napbot.NapSchedule;
+import com.tinytimrob.ppse.napbot.NapchartHandler;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -94,6 +96,14 @@ public class CommandSet implements ICommand
 		ps.setLong(1, user.getIdLong());
 		ps.setString(2, napchart);
 		ps.executeUpdate();
+		try
+		{
+			NapchartHandler.getNapchart(napchart.substring(napchart.length() - 5, napchart.length()));
+		}
+		catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	private NapSchedule setSchedule(User user, TextChannel channel, String scheduleString)

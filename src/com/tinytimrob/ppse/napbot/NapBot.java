@@ -1,13 +1,23 @@
 package com.tinytimrob.ppse.napbot;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import org.apache.logging.log4j.Logger;
+import org.eclipse.jetty.http.HttpGenerator;
+import org.eclipse.jetty.server.NCSARequestLog;
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.handler.HandlerCollection;
+import org.eclipse.jetty.server.handler.StatisticsHandler;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 import com.tinytimrob.common.Application;
 import com.tinytimrob.common.CommonUtils;
 import com.tinytimrob.common.Configuration;
 import com.tinytimrob.common.LogWrapper;
+import com.tinytimrob.common.PlatformData;
 import com.tinytimrob.common.TerminationReason;
 import com.tinytimrob.ppse.napbot.commands.CommandGet;
 import com.tinytimrob.ppse.napbot.commands.CommandHelp;
@@ -36,6 +46,9 @@ public class NapBot extends Application
 	/** Database connecton */
 	public static Connection connection = null;
 
+	/** Jetty server */
+	static Server SERVER;
+
 	/**
 	 * Entry point
 	 * @param args Command line arguments
@@ -54,7 +67,7 @@ public class NapBot extends Application
 	@Override
 	protected String getVersion()
 	{
-		return "0.0.1";
+		return "0.0.2";
 	}
 
 	/** The currently loaded configuration data */
@@ -92,11 +105,46 @@ public class NapBot extends Application
 		}
 
 		//=================================
+		// Connect to Firefox
+		//=================================
+		NapchartHandler.init();
+
+		//=================================
+		// Start embedded Jetty server for napcharts
+		//=================================
+		SERVER = new Server();
+		ServerConnector httpConnector = new ServerConnector(SERVER);
+		httpConnector.setPort(CONFIGURATION.napchartServerPort);
+		httpConnector.setName("Main");
+		SERVER.addConnector(httpConnector);
+		HandlerCollection handlerCollection = new HandlerCollection();
+		StatisticsHandler statsHandler = new StatisticsHandler();
+		statsHandler.setHandler(handlerCollection);
+		SERVER.setStopTimeout(5000);
+		SERVER.setHandler(statsHandler);
+		ServletContextHandler contextHandler = new ServletContextHandler();
+		contextHandler.setContextPath("/");
+		ServletHolder napchartServlet = new ServletHolder("default", new NapchartServlet());
+		contextHandler.addServlet(napchartServlet, "/*");
+		handlerCollection.addHandler(contextHandler);
+		NCSARequestLog requestLog = new NCSARequestLog(new File(PlatformData.installationDirectory, "logs/requestlog-yyyy_mm_dd.request.log").getAbsolutePath());
+		requestLog.setAppend(true);
+		requestLog.setExtended(false);
+		requestLog.setLogTimeZone("GMT");
+		requestLog.setLogLatency(true);
+		requestLog.setRetainDays(90);
+		requestLog.setLogServer(true);
+		requestLog.setPreferProxiedForAddress(true);
+		SERVER.setRequestLog(requestLog);
+		SERVER.start();
+		HttpGenerator.setJettyVersion(this.getName() + "/" + this.getVersion());
+
+		//=================================
 		// Connect to Discord
 		//=================================
 		jda = new JDABuilder(AccountType.BOT).setToken(CONFIGURATION.authToken).buildBlocking();
 		jda.getPresence().setGame(new GameImpl("Type " + NapBot.CONFIGURATION.messagePrefix + "help", null, GameType.DEFAULT));
-		jda.getSelfUser().getManager().setName("Nap God").complete();
+		jda.getSelfUser().getManager().setName(this.getName()).complete();
 		jda.addEventListener(new NapBotListener());
 
 		//=================================
@@ -124,5 +172,10 @@ public class NapBot extends Application
 		{
 			jda.shutdown();
 		}
+		if (SERVER != null)
+		{
+			SERVER.stop();
+		}
+		NapchartHandler.shutdown();
 	}
 }

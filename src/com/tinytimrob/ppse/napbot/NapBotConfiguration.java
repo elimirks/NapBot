@@ -13,4 +13,10 @@ public class NapBotConfiguration
 
 	@Expose
 	public String messagePrefix = "+";
+
+	@Expose
+	public String napchartUrlPrefix = "";
+
+	@Expose
+	public int napchartServerPort = 19991;
 }

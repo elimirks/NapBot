@@ -40,9 +40,9 @@ public class NapBotListener extends ListenerAdapter
 	@Override
 	public void onMessageReceived(MessageReceivedEvent event)
 	{
-		if (event.getAuthor().getIdLong() == event.getAuthor().getJDA().getSelfUser().getIdLong())
+		if (NapBot.terminationReason != null || event.getAuthor().getIdLong() == event.getAuthor().getJDA().getSelfUser().getIdLong())
 		{
-			// don't respond to your own messages you silly bot
+			// don't respond to messages if the bot is shutting down, or if the messages are coming the bot itself
 			return;
 		}
 		try

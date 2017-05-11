@@ -1,11 +1,13 @@
 package com.tinytimrob.ppse.napbot.commands;
 
+import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import com.tinytimrob.ppse.napbot.NapBot;
+import com.tinytimrob.ppse.napbot.NapchartHandler;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
@@ -36,6 +38,16 @@ public class CommandGet implements ICommand
 			{
 				// match based on @mention
 				String id = match.substring(3, match.indexOf(">"));
+				Member member = channel.getGuild().getMemberById(id);
+				if (member != null)
+				{
+					matchingMembers.add(member);
+				}
+			}
+			else if (match.startsWith("<@") && match.contains(">"))
+			{
+				// why do some snowflakes start with ! and some not? wtf?
+				String id = match.substring(2, match.indexOf(">"));
 				Member member = channel.getGuild().getMemberById(id);
 				if (member != null)
 				{
@@ -104,7 +116,18 @@ public class CommandGet implements ICommand
 		if (rs.next())
 		{
 			String napchartLocation = rs.getString("link");
-			channel.sendMessage("Napchart for **" + matchedMember.getEffectiveName() + "**: " + napchartLocation).complete();
+			String napchartID = napchartLocation.substring(napchartLocation.length() - 5, napchartLocation.length());
+			String napchartURL = "";
+			try
+			{
+				NapchartHandler.getNapchart(napchartID);
+				napchartURL = " " + NapBot.CONFIGURATION.napchartUrlPrefix + napchartID;
+			}
+			catch (IOException e)
+			{
+				// yay.
+			}
+			channel.sendMessage("Napchart for **" + matchedMember.getEffectiveName() + "**: " + napchartLocation + napchartURL).complete();
 		}
 		else
 		{
