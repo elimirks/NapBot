@@ -40,25 +40,13 @@ public class NapchartServlet extends HttpServlet
 				}
 				finally
 				{
-					IOUtils.closeQuietly(out); // this is using apache-commons, 
-					IOUtils.closeQuietly(fis); // make sure you provide required JARs
+					IOUtils.closeQuietly(out);
+					IOUtils.closeQuietly(fis);
 				}
+				return;
 			}
 		}
-		else
-		{
-			response.sendError(HttpServletResponse.SC_NOT_FOUND);
-			return;
-		}
-		/*
-		if (PATH.length() != 10 || !PATH.startsWith("/") || !PATH.endsWith(".png"))
-		{
-			
-		}
-		String napchartString = PATH.substring(1, 6);
-		System.out.println("napchartString " + napchartString);
-		*/
-		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		return;
 	}
 }
