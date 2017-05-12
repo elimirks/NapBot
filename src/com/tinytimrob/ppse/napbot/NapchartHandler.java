@@ -57,6 +57,7 @@ public class NapchartHandler
 	static WebDriver driver = null;
 	static File napchartDirectory = null;
 
+	@SuppressWarnings("deprecation")
 	public static synchronized void init() throws IOException
 	{
 		int DISPLAY_NUMBER = 99; // TODO make this configurable
