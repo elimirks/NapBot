@@ -115,7 +115,7 @@ public class CommandGet implements ICommand
 		ResultSet rs = ps.executeQuery();
 		if (rs.next())
 		{
-			String napchartLocation = rs.getString("link");
+			String napchartLocation = rs.getString("link").replace("http://", "https://");
 			String napchartID = napchartLocation.substring(napchartLocation.length() - 5, napchartLocation.length());
 			String napchartURL = "";
 			try

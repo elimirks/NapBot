@@ -92,6 +92,7 @@ public class CommandSet implements ICommand
 
 	private void setNapchart(User user, TextChannel channel, String napchart) throws SQLException
 	{
+		napchart = napchart.replace("http://", "https://");
 		PreparedStatement ps = NapBot.connection.prepareStatement("INSERT OR REPLACE INTO napcharts (id, link) VALUES (?, ?)");
 		ps.setLong(1, user.getIdLong());
 		ps.setString(2, napchart);
