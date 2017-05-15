@@ -75,6 +75,7 @@ public class CommandCreate implements ICommand
 			this.addSleepBlock((60 * startH) + startM, (60 * endH) + endM);
 		}
 
+		@Override
 		public void finalize()
 		{
 			Collections.sort(this.data_.core);
@@ -106,7 +107,7 @@ public class CommandCreate implements ICommand
 		Payload payload = new Payload();
 		for (String parameter : parameters)
 		{
-			Matcher matcher = TIMESTAMP_PATTERN.matcher(parameter);
+			Matcher matcher = this.TIMESTAMP_PATTERN.matcher(parameter);
 			if (matcher.matches())
 			{
 				int startH = Integer.parseInt(matcher.group(2));
