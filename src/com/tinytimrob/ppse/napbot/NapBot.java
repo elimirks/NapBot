@@ -3,6 +3,7 @@ package com.tinytimrob.ppse.napbot;
 import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.jetty.http.HttpGenerator;
@@ -22,6 +23,7 @@ import com.tinytimrob.common.TerminationReason;
 import com.tinytimrob.ppse.napbot.commands.CommandGet;
 import com.tinytimrob.ppse.napbot.commands.CommandHelp;
 import com.tinytimrob.ppse.napbot.commands.CommandSet;
+import com.tinytimrob.ppse.napbot.commands.CommandCreate;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -77,7 +79,7 @@ public class NapBot extends Application
 	protected TerminationReason run() throws Exception
 	{
 		//=================================
-		// Load JDA
+		// Load configuration
 		//=================================
 		CONFIGURATION = Configuration.load(NapBotConfiguration.class);
 		if (CommonUtils.isNullOrEmpty(CONFIGURATION.authToken))
@@ -92,6 +94,7 @@ public class NapBot extends Application
 		NapBotListener.register(new CommandHelp());
 		NapBotListener.register(new CommandGet());
 		NapBotListener.register(new CommandSet());
+		NapBotListener.register(new CommandCreate());
 
 		//=================================
 		// Connect to database
@@ -137,7 +140,7 @@ public class NapBot extends Application
 		requestLog.setPreferProxiedForAddress(true);
 		SERVER.setRequestLog(requestLog);
 		SERVER.start();
-		HttpGenerator.setJettyVersion(this.getName() + "/" + this.getVersion());
+		HttpGenerator.setJettyVersion(this.getName().replace(" ", "") + "/" + this.getVersion().replace(" ", ""));
 
 		//=================================
 		// Connect to Discord
@@ -146,6 +149,16 @@ public class NapBot extends Application
 		jda.getPresence().setGame(new GameImpl("Type " + NapBot.CONFIGURATION.messagePrefix + "help", null, GameType.DEFAULT));
 		jda.getSelfUser().getManager().setName(this.getName()).complete();
 		jda.addEventListener(new NapBotListener());
+
+		//=================================
+		// update nap god's schedule
+		//=================================
+		{
+			PreparedStatement ps = NapBot.connection.prepareStatement("INSERT OR REPLACE INTO napcharts (id, link) VALUES (?, ?)");
+			ps.setLong(1, jda.getSelfUser().getIdLong());
+			ps.setString(2, "https://napchart.com/hu3xo");
+			ps.executeUpdate();
+		}
 
 		//=================================
 		// Wait for shutdown
