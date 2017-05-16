@@ -34,6 +34,12 @@ public class CommandAboutSchedule implements ICommand
 	{
 		ArrayList<String> info = new ArrayList<String>();
 		info.add("`" + this.schedule.name + "` (" + this.schedule.longName + ") - <https://napchart.com/" + this.schedule.napchartID + "> - " + NapBot.CONFIGURATION.napchartUrlPrefix + this.schedule.napchartID);
+		if (!this.schedule.experimental.isEmpty())
+		{
+			info.add("-----------------------------------------------");
+			info.add("_" + this.schedule.experimental + "_");
+			info.add("-----------------------------------------------");
+		}
 		info.add("- **Total sleep:** " + this.schedule.totalSleep);
 		info.add("- **Identification:** " + this.schedule.identification);
 		info.add("- **Specification:** " + this.schedule.specification);

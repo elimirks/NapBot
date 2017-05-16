@@ -6,7 +6,7 @@ public enum NapRole
 	DUAL_CORE("Dual Core", "Dual core schedules"), //
 	EVERYMAN("Everyman", "Everyman schedules"), //
 	BIPHASIC("Biphasic", "Biphasic schedules"), //
-	EXPERIMENTAL("Experimental", "Experimental schedules"), //
+	EXPERIMENTAL("Experimental", "Experimental/Unproven schedules"), //
 	MONOPHASIC("Monophasic", null);
 
 	public final String name;

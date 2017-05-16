@@ -24,6 +24,7 @@ import com.tinytimrob.ppse.napbot.commands.CommandAboutSchedule;
 import com.tinytimrob.ppse.napbot.commands.CommandCreate;
 import com.tinytimrob.ppse.napbot.commands.CommandGet;
 import com.tinytimrob.ppse.napbot.commands.CommandHelp;
+import com.tinytimrob.ppse.napbot.commands.CommandChartList;
 import com.tinytimrob.ppse.napbot.commands.CommandSet;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -103,6 +104,7 @@ public class NapBot extends Application
 				NapBotListener.register(new CommandAboutSchedule(schedule));
 			}
 		}
+		NapBotListener.register(new CommandChartList());
 
 		//=================================
 		// Connect to database
