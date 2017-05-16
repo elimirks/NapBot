@@ -20,6 +20,7 @@ import com.tinytimrob.common.Configuration;
 import com.tinytimrob.common.LogWrapper;
 import com.tinytimrob.common.PlatformData;
 import com.tinytimrob.common.TerminationReason;
+import com.tinytimrob.ppse.napbot.commands.CommandAboutSchedule;
 import com.tinytimrob.ppse.napbot.commands.CommandCreate;
 import com.tinytimrob.ppse.napbot.commands.CommandGet;
 import com.tinytimrob.ppse.napbot.commands.CommandHelp;
@@ -95,6 +96,13 @@ public class NapBot extends Application
 		NapBotListener.register(new CommandGet());
 		NapBotListener.register(new CommandSet());
 		NapBotListener.register(new CommandCreate());
+		for (NapSchedule schedule : NapSchedule.values())
+		{
+			if (!schedule.totalSleep.isEmpty())
+			{
+				NapBotListener.register(new CommandAboutSchedule(schedule));
+			}
+		}
 
 		//=================================
 		// Connect to database

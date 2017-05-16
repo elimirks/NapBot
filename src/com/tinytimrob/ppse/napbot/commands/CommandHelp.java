@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import com.tinytimrob.ppse.napbot.NapBot;
+import com.tinytimrob.ppse.napbot.NapBotListener;
 import com.tinytimrob.ppse.napbot.NapSchedule;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
@@ -28,9 +29,20 @@ public class CommandHelp implements ICommand
 		ArrayList<String> output = new ArrayList<String>();
 		output.add("--- Nap God help ---");
 		output.add("");
-		output.add("Nap God can be used to change your displayed sleep schedule and group, or to save and look up napcharts.");
+		output.add("Nap God can be used to look up information about common sleep schedules, change your displayed sleep schedule and group, and to save and look up napcharts.");
 		output.add("-----------------------------------------------");
-		output.add("**To set your sleep schedule:** Type `" + NapBot.CONFIGURATION.messagePrefix + "set` followed by the schedule name. For example, if you wanted to change your schedule to DC1, you would type `" + NapBot.CONFIGURATION.messagePrefix + "set DC1`. The following sleep schedules are currently recognized by this command: " + NapSchedule.getScheduleList() + ". If you don't see your schedule listed, or you are doing some variant (e.g. a modified/extended/underage version), select the closest option and then correct your nickname by hand.");
+		output.add("**Schedule List**");
+		output.add("To view information about one of these schedules, type `+` followed by the schedule name. For example, `+DC1` will display information about DC1.");
+		output.add("");
+		for (NapSchedule schedule : NapSchedule.values())
+		{
+			if (!schedule.totalSleep.isEmpty())
+			{
+				output.add(schedule.name);
+			}
+		}
+		output.add("-----------------------------------------------");
+		output.add("**To set your sleep schedule:** Type `" + NapBot.CONFIGURATION.messagePrefix + "set` followed by the schedule name. For example, if you wanted to change your schedule to DC1, you would type `" + NapBot.CONFIGURATION.messagePrefix + "set DC1`. All of the schedules listed above are supported. If you don't see your schedule listed, or you are doing some variant (e.g. a modified/extended/underage version), select the closest option and then correct your nickname by hand.");
 		output.add("-----------------------------------------------");
 		output.add("**To set your napchart:** Type `" + NapBot.CONFIGURATION.messagePrefix + "set` followed by the napchart link. For example, `" + NapBot.CONFIGURATION.messagePrefix + "set https://napchart.com/ro1mi`");
 		output.add("-----------------------------------------------");
