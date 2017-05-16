@@ -32,7 +32,7 @@ public class CommandHelp implements ICommand
 		output.add("Nap God can be used to look up information about common sleep schedules, change your displayed sleep schedule and group, and to save and look up napcharts.");
 		output.add("-----------------------------------------------");
 		output.add("**Schedule List**");
-		output.add("To view information about one of these schedules, type `+` followed by the schedule name. For example, `+DC1` will display information about DC1.");
+		output.add("To view information about a polyphasic sleep schedule, type `+` followed by the schedule name. For example, `+DC1` will display information about DC1.");
 		output.add("");
 		for (NapRole role : NapRole.values())
 		{
@@ -49,6 +49,8 @@ public class CommandHelp implements ICommand
 				output.add(x);
 			}
 		}
+		output.add("");
+		output.add("Once you have chosen your sleep schedule you can use the `+set` command to tag yourself with it and move yourself to the matching role. You can also use `+set` to set a napchart against your account (created on <https://napchart.com/> or with the `+create` command) which others can then look at. Further details found below.");
 		output.add("-----------------------------------------------");
 		channel.sendMessage(StringUtils.join(output, '\n')).complete();
 		output = new ArrayList<String>();
@@ -59,6 +61,8 @@ public class CommandHelp implements ICommand
 		output.add("**To set your napchart:** Type `" + NapBot.CONFIGURATION.messagePrefix + "set` followed by the napchart link. For example, `" + NapBot.CONFIGURATION.messagePrefix + "set https://napchart.com/ro1mi`");
 		output.add("-----------------------------------------------");
 		output.add("**To set both at the same time:** Just specify both. For example, `" + NapBot.CONFIGURATION.messagePrefix + "set DC1 https://napchart.com/ro1mi`");
+		output.add("-----------------------------------------------");
+		output.add("**To remove your sleep schedule:** Type `" + NapBot.CONFIGURATION.messagePrefix + "set monophasic`. Your tag and user role will be removed.");
 		output.add("-----------------------------------------------");
 		output.add("**To look up your own napchart:** Type `" + NapBot.CONFIGURATION.messagePrefix + "get`.");
 		output.add("-----------------------------------------------");
