@@ -51,6 +51,8 @@ public class CommandHelp implements ICommand
 		}
 		output.add("");
 		output.add("Once you have chosen your sleep schedule you can use the `+set` command to tag yourself with it and move yourself to the matching role. You can also use `+set` to set a napchart against your account (created on <https://napchart.com/> or with the `+create` command) which others can then look at. Further details found below.");
+		output.add("");
+		output.add("If you are new to polyphasic sleeping and are not sure about which sleep schedule to try, feel free to ask for help and advice in the <#249219704655183876> channel.");
 		output.add("-----------------------------------------------");
 		channel.sendMessage(StringUtils.join(output, '\n')).complete();
 		output = new ArrayList<String>();

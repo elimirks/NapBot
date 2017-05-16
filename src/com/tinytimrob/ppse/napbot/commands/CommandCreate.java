@@ -1,5 +1,6 @@
 package com.tinytimrob.ppse.napbot.commands;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.regex.Pattern;
 import com.google.gson.annotations.Expose;
 import com.tinytimrob.common.Communicator;
 import com.tinytimrob.ppse.napbot.NapBot;
+import com.tinytimrob.ppse.napbot.NapchartHandler;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 
@@ -124,7 +126,17 @@ public class CommandCreate implements ICommand
 		}
 		payload.finalize();
 		String napchartID = Communicator.basicJsonMessage("Generate napchart", "https://napchart.com/post", payload, String.class, false);
-		channel.sendMessage("https://napchart.com/" + napchartID + " " + NapBot.CONFIGURATION.napchartUrlPrefix + napchartID).complete();
+		String napchartURL = "";
+		try
+		{
+			NapchartHandler.getNapchart(napchartID);
+			napchartURL = " " + NapBot.CONFIGURATION.napchartUrlPrefix + napchartID;
+		}
+		catch (IOException e)
+		{
+			// yay.
+		}
+		channel.sendMessage("https://napchart.com/" + napchartID + napchartURL).complete();
 		return true;
 	}
 
