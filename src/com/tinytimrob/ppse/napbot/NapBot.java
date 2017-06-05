@@ -21,10 +21,11 @@ import com.tinytimrob.common.LogWrapper;
 import com.tinytimrob.common.PlatformData;
 import com.tinytimrob.common.TerminationReason;
 import com.tinytimrob.ppse.napbot.commands.CommandAboutSchedule;
+import com.tinytimrob.ppse.napbot.commands.CommandChartList;
 import com.tinytimrob.ppse.napbot.commands.CommandCreate;
 import com.tinytimrob.ppse.napbot.commands.CommandGet;
 import com.tinytimrob.ppse.napbot.commands.CommandHelp;
-import com.tinytimrob.ppse.napbot.commands.CommandChartList;
+import com.tinytimrob.ppse.napbot.commands.CommandSay;
 import com.tinytimrob.ppse.napbot.commands.CommandSet;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -105,6 +106,7 @@ public class NapBot extends Application
 			}
 		}
 		NapBotListener.register(new CommandChartList());
+		NapBotListener.register(new CommandSay());
 
 		//=================================
 		// Connect to database
