@@ -25,6 +25,7 @@ import com.tinytimrob.ppse.napbot.commands.CommandChartList;
 import com.tinytimrob.ppse.napbot.commands.CommandCreate;
 import com.tinytimrob.ppse.napbot.commands.CommandGet;
 import com.tinytimrob.ppse.napbot.commands.CommandHelp;
+import com.tinytimrob.ppse.napbot.commands.CommandMSet;
 import com.tinytimrob.ppse.napbot.commands.CommandSay;
 import com.tinytimrob.ppse.napbot.commands.CommandSet;
 import net.dv8tion.jda.core.AccountType;
@@ -72,7 +73,7 @@ public class NapBot extends Application
 	@Override
 	protected String getVersion()
 	{
-		return "0.0.2";
+		return "0.0.3";
 	}
 
 	/** The currently loaded configuration data */
@@ -107,6 +108,7 @@ public class NapBot extends Application
 		}
 		NapBotListener.register(new CommandChartList());
 		NapBotListener.register(new CommandSay());
+		NapBotListener.register(new CommandMSet());
 
 		//=================================
 		// Connect to database
@@ -159,7 +161,7 @@ public class NapBot extends Application
 		//=================================
 		jda = new JDABuilder(AccountType.BOT).setToken(CONFIGURATION.authToken).buildBlocking();
 		jda.getPresence().setGame(new GameImpl("Type " + NapBot.CONFIGURATION.messagePrefix + "help", null, GameType.DEFAULT));
-		jda.getSelfUser().getManager().setName(this.getName()).complete();
+//		jda.getSelfUser().getManager().setName(this.getName()).complete();
 		jda.addEventListener(new NapBotListener());
 
 		//=================================

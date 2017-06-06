@@ -1,5 +1,6 @@
 package com.tinytimrob.ppse.napbot;
 
+import java.util.ArrayList;
 import com.google.gson.annotations.Expose;
 
 /**
@@ -19,4 +20,7 @@ public class NapBotConfiguration
 
 	@Expose
 	public int napchartServerPort = 19991;
+
+	@Expose
+	public ArrayList<String> moderators = new ArrayList<String>();
 }

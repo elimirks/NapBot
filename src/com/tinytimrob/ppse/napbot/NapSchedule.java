@@ -202,6 +202,7 @@ public enum NapSchedule
 			"Time slots free for rotation, and equidistant sleep is recommended", //
 			"Very high", //
 			""), //
+	/*
 	ZOIDBERG("Zoidberg", "Zoidberg", NapRole.EXPERIMENTAL, true,//
 			"m7hpg", //
 			"Around 3-4 hours", //
@@ -212,6 +213,7 @@ public enum NapSchedule
 			"Stack naps in the night, avoid napping much in the day.", //
 			"Virtually non-existent", //
 			"This is an **experimental schedule** currently being tested. Results unknown. No signs of successful adaptations."), //
+	*/
 	EXPERIMENTAL("Experimental", "Experimental", NapRole.EXPERIMENTAL, false,//
 			"", //
 			"", //
