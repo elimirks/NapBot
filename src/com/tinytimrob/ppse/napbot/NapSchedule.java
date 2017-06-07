@@ -214,7 +214,7 @@ public enum NapSchedule
 			"Virtually non-existent", //
 			"This is an **experimental schedule** currently being tested. Results unknown. No signs of successful adaptations."), //
 	*/
-	EXPERIMENTAL("Experimental", "Experimental", NapRole.EXPERIMENTAL, false,//
+	EXPERIMENTAL("Experimental", "Experimental", NapRole.EXPERIMENTAL, true,//
 			"", //
 			"", //
 			"", //
@@ -224,7 +224,7 @@ public enum NapSchedule
 			"", //
 			"", //
 			""), //
-	MONOPHASIC("Monophasic", "Monophasic", NapRole.MONOPHASIC, false,//
+	MONOPHASIC("Monophasic", "Monophasic", NapRole.MONOPHASIC, true,//
 			"3sicn", //
 			"", //
 			"", //
