@@ -161,7 +161,7 @@ public class NapBot extends Application
 		//=================================
 		jda = new JDABuilder(AccountType.BOT).setToken(CONFIGURATION.authToken).buildBlocking();
 		jda.getPresence().setGame(new GameImpl("Type " + NapBot.CONFIGURATION.messagePrefix + "help", null, GameType.DEFAULT));
-//		jda.getSelfUser().getManager().setName(this.getName()).complete();
+		//		jda.getSelfUser().getManager().setName(this.getName()).complete();
 		jda.addEventListener(new NapBotListener());
 
 		//=================================
