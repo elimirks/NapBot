@@ -197,7 +197,7 @@ public enum NapSchedule
 			"2 hours", //
 			"Ultrashort naps", //
 			"6 20-min naps", //
-			"6 naps, equidistantly spread during the day. 2-hour BRAC and 4-hour rhythm. At least 1 SWS nap, and there could be mixed-stage naps.", //
+			"6 naps, equidistantly spread during the day. 1-hour BRAC and 4-hour rhythm. At least 1 SWS nap, and mixed-stage naps are very likely.", //
 			"Extremely hard", //
 			"Time slots free for rotation, and equidistant sleep is recommended", //
 			"Very high", //
