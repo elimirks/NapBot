@@ -66,7 +66,7 @@ public class NapBotListener extends ListenerAdapter
 					ICommand icommand = commands.get(command.toLowerCase(Locale.ENGLISH));
 					if (icommand == null)
 					{
-						channel.sendMessage("I don't know what you mean by `" + content + "`. If you're not sure what you're doing, try typing `+help`.").complete();
+						channel.sendMessage("I don't know what you mean by `" + content + "`. If you're not sure what you're doing, try typing `" + NapBot.CONFIGURATION.messagePrefix + "help`.").complete();
 						return;
 					}
 					if (!icommand.hasPermission(author))
@@ -76,7 +76,7 @@ public class NapBotListener extends ListenerAdapter
 					}
 					if (!icommand.execute(author, channel, command, split))
 					{
-						channel.sendMessage("I don't know what you mean by `" + content + "`. If you're not sure what you're doing, try typing `+help`.").complete();
+						channel.sendMessage("I don't know what you mean by `" + content + "`. If you're not sure what you're doing, try typing `" + NapBot.CONFIGURATION.messagePrefix + "help`.").complete();
 						return;
 					}
 				}
