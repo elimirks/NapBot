@@ -59,7 +59,6 @@ public class CommandSet implements ICommand
 			}
 			else
 			{
-				String rnc = this.removeNapchart(user, channel);
 				NapSchedule newSchedule = this.setSchedule(user, channel, param);
 				if (newSchedule == null)
 				{
@@ -68,6 +67,7 @@ public class CommandSet implements ICommand
 				}
 				else
 				{
+					String rnc = this.removeNapchart(user, channel);
 					channel.sendMessage(user.getAsMention() + " Your sleep schedule has been set to " + newSchedule.longName + "." + rnc).complete();
 				}
 			}
