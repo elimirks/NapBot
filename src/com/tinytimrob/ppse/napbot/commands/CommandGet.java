@@ -34,6 +34,10 @@ public class CommandGet implements ICommand
 		{
 			List<Member> matchingMembers = new ArrayList<Member>();
 			String match = StringUtils.join(parameters, " ");
+			while (match.startsWith(" "))
+			{
+				match = match.substring(1);
+			}
 			if (match.startsWith("<@!") && match.contains(">"))
 			{
 				// match based on @mention
