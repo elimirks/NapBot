@@ -23,6 +23,9 @@ public class CommandSay implements ICommand
 	@Override
 	public boolean execute(User user, TextChannel channel, String command, List<String> parameters) throws Exception
 	{
+		if (parameters.isEmpty())
+			return false;
+
 		channel.sendMessage(StringUtils.join(parameters, " ")).complete();
 		return true;
 	}
