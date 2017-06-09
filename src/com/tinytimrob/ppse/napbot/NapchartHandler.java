@@ -13,6 +13,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import com.tinytimrob.common.PlatformData;
 import com.tinytimrob.common.PlatformType;
 
@@ -57,7 +59,6 @@ public class NapchartHandler
 	static WebDriver driver = null;
 	static File napchartDirectory = null;
 
-	@SuppressWarnings("deprecation")
 	public static synchronized void init() throws IOException
 	{
 		int DISPLAY_NUMBER = 99; // TODO make this configurable
@@ -70,7 +71,12 @@ public class NapchartHandler
 		{
 			firefox.setEnvironmentProperty("DISPLAY", ":" + DISPLAY_NUMBER);
 		}
-		driver = new FirefoxDriver(firefox, null);
+		DesiredCapabilities capabilities = DesiredCapabilities.firefox();
+		capabilities.setAcceptInsecureCerts(true);
+		FirefoxOptions options = new FirefoxOptions();
+		options.setBinary(firefox);
+		options.addCapabilities(capabilities);
+		driver = new FirefoxDriver(options);
 		napchartDirectory = new File(PlatformData.installationDirectory, "napcharts");
 		napchartDirectory.mkdirs();
 	}
