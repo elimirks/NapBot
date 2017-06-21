@@ -5,6 +5,7 @@ public enum NapRole
 	SUPERHUMAN("Superhumans", "Nap-only/Superhuman schedules"), //
 	DUAL_CORE("Dual Core", "Dual core schedules"), //
 	EVERYMAN("Everyman", "Everyman schedules"), //
+	TRIPHASIC("Triphasic", "Triphasic schedules"), //
 	BIPHASIC("Biphasic", "Biphasic schedules"), //
 	EXPERIMENTAL("Experimental", "Experimental/Unproven schedules"), //
 	MONOPHASIC("Monophasic", null);

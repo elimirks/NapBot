@@ -37,7 +37,7 @@ public enum NapSchedule
 			"4 hours", //
 			"Dual Core sleep", //
 			"2 core sleeps, 3 naps", //
-			"One core sleep before midnight, one after midnight, dawn nap, noon nap, and afternoon nap. 1.5-hour BRAC and 3-hour rhythm. Sleep stage division: Dusk core SWS, night core REM.", //
+			"One core sleep before midnight, one after midnight, dawn nap, noon nap, and afternoon nap. Sleep stage division: Dusk core SWS, night core REM.", //
 			"Very hard", //
 			"3-hour wake between 2 cores, dawn nap, noon nap and afternoon nap", //
 			"Very low", //
@@ -47,7 +47,7 @@ public enum NapSchedule
 			"4 hours 20 minutes", //
 			"Dual Core sleep", //
 			"2 core sleeps, 4 naps", //
-			"Transitional variant of DC3 with 4 naps that follows Uberman rhythm. One core sleep before midnight, one after midnight, dawn nap, mid-morning nap, mid-afternoon nap, and evening nap. 2-hour BRAC and 4-hour rhythm. Sleep stage division: Dusk core SWS, night core REM. Several of the naps are likely to be mixed-stage naps.", //
+			"Transitional variant of DC3 with 4 naps that follows Uberman rhythm. One core sleep before midnight, one after midnight, dawn nap, mid-morning nap, mid-afternoon nap, and evening nap. Sleep stage division: Dusk core SWS, night core REM. Several of the naps are likely to be mixed-stage naps.", //
 			"Very hard", //
 			"Sleeps are scheduled to start every 4 hours which resembles Uberman. Transition step to E5 or Uberman and also useful as a fallback from E5 or Uberman should adaptation fail.", //
 			"Virtually non-existent, generally inferior to DC3 unless keeping Uberman rhythm is useful", //
@@ -57,14 +57,14 @@ public enum NapSchedule
 			"2 hours", //
 			"Ultrashort naps", //
 			"4 naps of 30 minutes", //
-			"4 naps per day, equidistantly spread throughout the day. Circadian spots include: midnight nap, dawn nap, noon nap, and evening nap. 1.5-hour BRAC, and 6-hour rhythm between each nap. Mixed-stage nap(s) in all 4 naps, or possibly pure-REM or pure-SWS nap.", //
+			"4 naps per day, equidistantly spread throughout the day. Circadian spots include: midnight nap, dawn nap, noon nap, and evening nap. Mixed-stage nap(s) in all 4 naps, or possibly pure-REM or pure-SWS nap.", //
 			"Almost impossible", //
 			"Arranging naps to fit in 4 aforementioned circadian needs to rest", //
 			"Decent", //
 			""), //
 	E2("E2", "Everyman 2", NapRole.EVERYMAN, true,//
 			"fflmu", //
-			"4 hours 50 minutes", //
+			"5 hours 10 minutes", //
 			"Everyman sleep", //
 			"1 long core sleep, 2 REM naps", //
 			"1 core sleep (3 full cycles), 2 naps", //
@@ -97,7 +97,7 @@ public enum NapSchedule
 			"3 hours 10 minutes", //
 			"Everyman sleep", //
 			"1 min-length core (1 full cycle), 5 naps", //
-			"Transitional variant of E4 with 5 naps that follows Uberman rhythm. 1 core sleep before midnight to gain as much SWS as possible, graveyard nap, dawn nap, mid-morning nap, mid-afternoon nap, and evening nap. 2-hour BRAC and 4-hour rhythm. A combination of REM-only and mixed-stage naps is likely.", //
+			"Transitional variant of E4 with 5 naps that follows Uberman rhythm. 1 core sleep before midnight to gain as much SWS as possible, graveyard nap, dawn nap, mid-morning nap, mid-afternoon nap, and evening nap. A combination of REM-only and mixed-stage naps is likely.", //
 			"Extremely hard", //
 			"Sleeps are scheduled to start every 4 hours which resembles Uberman. Transition step between DC4 and Uberman and also useful as a fallback from Uberman should adaptation fail.", //
 			"Non-existent, generally inferior to E4 unless keeping Uberman rhythm is useful", //
@@ -157,7 +157,7 @@ public enum NapSchedule
 			"1 hour 20 minutes", //
 			"Ultrashort naps", //
 			"4 naps of 20 minutes", //
-			"Variant of Dymaxion with 20 minute naps instead of 30 minute naps. 4 naps per day, equidistantly spread throughout the day. Circadian spots include: midnight nap, dawn nap, noon nap, and evening nap. 1.5-hour BRAC, and 6-hour rhythm between each nap. Mixed-stage nap(s) in all 4 naps, or possibly pure-REM or pure-SWS nap.", //
+			"Variant of Dymaxion with 20 minute naps instead of 30 minute naps. 4 naps per day, equidistantly spread throughout the day. Circadian spots include: midnight nap, dawn nap, noon nap, and evening nap. Mixed-stage nap(s) in all 4 naps, or possibly pure-REM or pure-SWS nap.", //
 			"Almost impossible", //
 			"Arranging naps to fit in 4 aforementioned circadian needs to rest", //
 			"Very low", //
@@ -165,7 +165,7 @@ public enum NapSchedule
 	TRI_CORE("Tri_Core", "Tri Core", NapRole.EXPERIMENTAL, true,//
 			"tocl4", //
 			"4 hours 50 minutes", //
-			"Tri Core, Dual Core sleep presumably", //
+			"Triphasic sleep with extra nap", //
 			"3 core sleeps of minimum length, 1 nap", //
 			"Sleep stage division: 1 SWS core, 2 REM core and 1 REM nap. 3-hour rhythm to line up with sleep-wake cycle length of each core sleep. Predicted to be more flexible than Dual Core sleep schedules because the core component of Tri Core consists of 3 cores to be shifted quite comfortably once adapted. ", //
 			"Unknown", //
@@ -182,10 +182,10 @@ public enum NapSchedule
 			"Distribution of sleeps resembles Dymaxion's and Quadphasic's. Transition step to Dymaxion and also as a fallback from Dymaxion should adaptation fail.", //
 			"Virtually non-existent", //
 			"This is an **experimental schedule** currently being tested. Results unknown. No signs of successful adaptations."), //
-	TRIPHASIC("Triphasic", "Triphasic", NapRole.DUAL_CORE, true,//
+	TRIPHASIC("Triphasic", "Triphasic", NapRole.TRIPHASIC, true,//
 			"8z46u", //
 			"4 hours 30 minutes", //
-			"Tri Core, Dual Core sleep presumably", //
+			"Triphasic", //
 			"3 cores of minimum length", //
 			"One core sleep before midnight, one around dawn, and one around noon. Sleep stage separation of SWS and REM into 2 cores of the night, like Dual Core sleep. Long siesta to balance out the schedule.", //
 			"Varies", //

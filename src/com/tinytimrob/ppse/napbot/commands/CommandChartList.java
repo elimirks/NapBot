@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
 import com.tinytimrob.ppse.napbot.NapBot;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -40,7 +39,20 @@ public class CommandChartList implements ICommand
 			}
 		}
 		Collections.sort(strings);
-		channel.sendMessage("**There are " + strings.size() + " members who currently have napcharts set:**\n" + StringUtils.join(strings, "\n")).complete();
+		String msg = "**There are " + strings.size() + " members who currently have napcharts set:**";
+		for (String s : strings)
+		{
+			msg = msg + "\n" + s;
+			if (msg.length() >= 1900)
+			{
+				channel.sendMessage(msg).complete();
+				msg = "-";
+			}
+		}
+		if (!msg.equals("-"))
+		{
+			channel.sendMessage(msg).complete();
+		}
 		return true;
 	}
 
