@@ -38,15 +38,20 @@ public class CommandHelp implements ICommand
 		{
 			if (role.helpName != null)
 			{
+				int found = 0;
 				String x = "" + role.helpName + ":";
 				for (NapSchedule schedule : NapSchedule.values())
 				{
 					if (schedule.role == role && !schedule.totalSleep.isEmpty())
 					{
 						x = x + " `" + schedule.name + "`";
+						found++;
 					}
 				}
-				output.add(x);
+				if (found > 0)
+				{
+					output.add(x);
+				}
 			}
 		}
 		output.add("");
@@ -71,7 +76,9 @@ public class CommandHelp implements ICommand
 		output.add("-----------------------------------------------");
 		output.add("**To look up someone else's napchart:** Type `" + NapBot.CONFIGURATION.messagePrefix + "get` followed by the name of the user. Any of the following name formats will work: `" + NapBot.CONFIGURATION.messagePrefix + "get Tinytimrob`, `" + NapBot.CONFIGURATION.messagePrefix + "get Tinytimrob#1956`, `" + NapBot.CONFIGURATION.messagePrefix + "get @Tinytimrob`. Mentions should be avoided though as these will ping the user in question.");
 		output.add("-----------------------------------------------");
-		output.add("**To list all users with napcharts set:** Type `" + NapBot.CONFIGURATION.messagePrefix + "chartlist`.");
+		output.add("**To list all members sorted by schedule:** Type `" + NapBot.CONFIGURATION.messagePrefix + "memberlist`.");
+		output.add("-----------------------------------------------");
+		output.add("**To list all members with napcharts set:** Type `" + NapBot.CONFIGURATION.messagePrefix + "chartlist`.");
 		output.add("-----------------------------------------------");
 		output.add("**To create a new napchart:** Type `" + NapBot.CONFIGURATION.messagePrefix + "create` followed by a series of time ranges. For example, `" + NapBot.CONFIGURATION.messagePrefix + "create 03:00-05:00 08:00-08:20 14:00-14:20 21:00-23:00`. A napchart link will then be generated for you.");
 		output.add("-----------------------------------------------");

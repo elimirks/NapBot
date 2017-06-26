@@ -13,7 +13,7 @@ public enum NapSchedule
 			"Most commonly used", //
 			""), //
 	DC1("DC1", "Dual Core 1", NapRole.DUAL_CORE, true,//
-			"qwzt5", //
+			"mf93j", //
 			"5 hours 20 minutes", //
 			"Dual Core sleep", //
 			"2 core sleeps, 1 nap", //
@@ -162,16 +162,16 @@ public enum NapSchedule
 			"Arranging naps to fit in 4 aforementioned circadian needs to rest", //
 			"Very low", //
 			""), //
-	TRI_CORE("Tri_Core", "Tri Core", NapRole.EXPERIMENTAL, true,//
+	TC1("TC1", "Tri Core 1", NapRole.TRI_CORE, true,//
 			"tocl4", //
 			"4 hours 50 minutes", //
-			"Triphasic sleep with extra nap", //
+			"Tri core sleep", //
 			"3 core sleeps of minimum length, 1 nap", //
 			"Sleep stage division: 1 SWS core, 2 REM core and 1 REM nap. 3-hour rhythm to line up with sleep-wake cycle length of each core sleep. Predicted to be more flexible than Dual Core sleep schedules because the core component of Tri Core consists of 3 cores to be shifted quite comfortably once adapted. ", //
 			"Unknown", //
 			"3 core sleeps are concentrated during the night to boost alertness for the whole day, so only one small nap in the afternoon is needed. 3-hour rhythm among each core sleep is recommended. Distance of wake time among each core sleep could be shortened if possible, but should not be less than 2 hours. Such a schedule will include a dusk core, night core, and dawn core.", //
-			"Non-existent", //
-			"This is an **experimental schedule** which has not been tested. Results unknown. No signs of successful adaptations."), //
+			"Virtually non-existent", //
+			""), //
 	TRIMAXION("Trimaxion", "Trimaxion", NapRole.EXPERIMENTAL, true,//
 			"awkwb", //
 			"3 hours", //
@@ -182,10 +182,10 @@ public enum NapSchedule
 			"Distribution of sleeps resembles Dymaxion's and Quadphasic's. Transition step to Dymaxion and also as a fallback from Dymaxion should adaptation fail.", //
 			"Virtually non-existent", //
 			"This is an **experimental schedule** currently being tested. Results unknown. No signs of successful adaptations."), //
-	TRIPHASIC("Triphasic", "Triphasic", NapRole.TRIPHASIC, true,//
+	TRIPHASIC("Triphasic", "Triphasic", NapRole.TRI_CORE, true,//
 			"8z46u", //
 			"4 hours 30 minutes", //
-			"Triphasic", //
+			"Tri core sleep", //
 			"3 cores of minimum length", //
 			"One core sleep before midnight, one around dawn, and one around noon. Sleep stage separation of SWS and REM into 2 cores of the night, like Dual Core sleep. Long siesta to balance out the schedule.", //
 			"Varies", //
@@ -233,6 +233,16 @@ public enum NapSchedule
 			"", //
 			"", //
 			"", //
+			""), //
+	UNKNOWN("Unknown", "Unknown", NapRole.MONOPHASIC, true,//
+			"", //
+			"", //
+			"", //
+			"", //
+			"", //
+			"", //
+			"", //
+			"", //
 			"");
 
 	public final String name;
@@ -271,6 +281,10 @@ public enum NapSchedule
 		String s = "";
 		for (NapSchedule schedule : NapSchedule.values())
 		{
+			if (schedule == UNKNOWN)
+			{
+				continue;
+			}
 			s += (!s.isEmpty() ? " " : "") + "`" + schedule.name + "`";
 		}
 		return s;

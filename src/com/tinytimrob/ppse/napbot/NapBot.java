@@ -26,6 +26,7 @@ import com.tinytimrob.ppse.napbot.commands.CommandCreate;
 import com.tinytimrob.ppse.napbot.commands.CommandGet;
 import com.tinytimrob.ppse.napbot.commands.CommandHelp;
 import com.tinytimrob.ppse.napbot.commands.CommandMSet;
+import com.tinytimrob.ppse.napbot.commands.CommandMemberList;
 import com.tinytimrob.ppse.napbot.commands.CommandSay;
 import com.tinytimrob.ppse.napbot.commands.CommandSet;
 import net.dv8tion.jda.core.AccountType;
@@ -107,6 +108,7 @@ public class NapBot extends Application
 			}
 		}
 		NapBotListener.register(new CommandChartList());
+		NapBotListener.register(new CommandMemberList());
 		NapBotListener.register(new CommandSay());
 		NapBotListener.register(new CommandMSet());
 
@@ -204,5 +206,28 @@ public class NapBot extends Application
 			SERVER.stop();
 		}
 		NapchartHandler.shutdown();
+	}
+
+	public static NapSchedule determineScheduleFromMemberName(String name)
+	{
+		if (!name.contains("["))
+		{
+			return NapSchedule.UNKNOWN;
+		}
+		String a = name.substring(name.lastIndexOf("[") + 1);
+		if (!a.contains("]"))
+		{
+			return NapSchedule.UNKNOWN;
+		}
+		a = a.substring(0, a.lastIndexOf("]")).trim();
+		// okay so now 'a' should contain this person's schedule name...
+		for (NapSchedule schedule : NapSchedule.values())
+		{
+			if (a.toUpperCase().contains(schedule.name.toUpperCase()))
+			{
+				return schedule;
+			}
+		}
+		return NapSchedule.EXPERIMENTAL;
 	}
 }

@@ -157,6 +157,10 @@ public class CommandSet implements ICommand
 		NapSchedule schedule = null;
 		for (NapSchedule schedule_ : NapSchedule.values())
 		{
+			if (schedule == NapSchedule.UNKNOWN)
+			{
+				continue;
+			}
 			if (schedule_.name.equalsIgnoreCase(scheduleString))
 			{
 				schedule = schedule_;
@@ -178,7 +182,7 @@ public class CommandSet implements ICommand
 			case "prototype1":
 			case "prototype-1":
 			case "prototype_1":
-				schedule = NapSchedule.TRI_CORE;
+				schedule = NapSchedule.TC1;
 				break;
 			case "u6":
 				schedule = NapSchedule.UBERMAN;

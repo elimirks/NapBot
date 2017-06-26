@@ -38,7 +38,7 @@ public class CommandChartList implements ICommand
 				strings.add(member.getEffectiveName() + " - <" + rs.getString("link").replace("http://", "https://") + ">");
 			}
 		}
-		Collections.sort(strings);
+		Collections.sort(strings, String.CASE_INSENSITIVE_ORDER);
 		String msg = "**There are " + strings.size() + " members who currently have napcharts set:**";
 		for (String s : strings)
 		{
@@ -59,12 +59,12 @@ public class CommandChartList implements ICommand
 	@Override
 	public String getCommandHelpUsage()
 	{
-		return "get [username]";
+		return "chartlist";
 	}
 
 	@Override
 	public String getCommandHelpDescription()
 	{
-		return "get someone's napchart link";
+		return "list everyone by chart";
 	}
 }
