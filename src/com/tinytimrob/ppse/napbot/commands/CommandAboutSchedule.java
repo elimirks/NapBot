@@ -1,10 +1,12 @@
 package com.tinytimrob.ppse.napbot.commands;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import com.tinytimrob.ppse.napbot.NapBot;
 import com.tinytimrob.ppse.napbot.NapSchedule;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 
@@ -48,6 +50,37 @@ public class CommandAboutSchedule implements ICommand
 		info.add("- **Ideal scheduling:** " + this.schedule.scheduling);
 		info.add("- **Popularity:** " + this.schedule.popularity);
 		channel.sendMessage(StringUtils.join(info, "\n")).complete();
+		ArrayList<String> l = new ArrayList<String>();
+		List<Member> mlist = channel.getGuild().getMembers();
+		String suf = " [" + this.schedule.name + "]";
+		for (Member m : mlist)
+		{
+			if (!m.getUser().isBot())
+			{
+				String en = m.getEffectiveName();
+				NapSchedule s = NapBot.determineScheduleFromMemberName(en);
+				if (s == this.schedule)
+				{
+					if (en.endsWith(suf))
+					{
+						en = en.substring(0, en.length() - suf.length());
+					}
+					l.add(en.replace("_", "\\_").replace("*", "\\*"));
+				}
+			}
+		}
+		Collections.sort(l, String.CASE_INSENSITIVE_ORDER);
+		String msg = (l.size() == 1 ? "is **1 member**" : l.size() == 0 ? "are **no members**" : "are **" + l.size() + " members**");
+		String currentMessage = "There " + msg + " currently on the schedule " + this.schedule.name;
+		if (!l.isEmpty())
+		{
+			currentMessage = currentMessage + ":\n" + StringUtils.join(l, ", ");
+		}
+		else
+		{
+			currentMessage = currentMessage + ".";
+		}
+		channel.sendMessage(currentMessage).complete();
 		return true;
 	}
 
