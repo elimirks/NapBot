@@ -46,25 +46,34 @@ public class CommandMemberList implements ICommand
 			hm.put(s, new ArrayList<String>());
 		}
 		List<Member> mlist = channel.getGuild().getMembers();
-		String currentMessage = "There are " + mlist.size() + " members on this server.\n";
+		int memberCount = 0;
 		for (Member m : mlist)
 		{
-			String en = m.getEffectiveName();
-			NapSchedule s = NapBot.determineScheduleFromMemberName(en);
-			//String sn = en.contains("[") ? en.substring(0, en.lastIndexOf("[")).trim() : en;
-			ArrayList<String> l = hm.get(s);
-			l.add(en);
+			if (!m.getUser().isBot())
+			{
+				String en = m.getEffectiveName();
+				NapSchedule s = NapBot.determineScheduleFromMemberName(en);
+				ArrayList<String> l = hm.get(s);
+				String suf = " [" + s.name + "]";
+				if (en.endsWith(suf))
+				{
+					en = en.substring(0, en.length() - suf.length());
+				}
+				l.add(en.replace("_", "\\_").replace("*", "\\*"));
+				memberCount++;
+			}
 		}
+		String currentMessage = "There are **" + memberCount + "** members on this server.\n";
 		for (NapSchedule s : NapSchedule.values())
 		{
 			ArrayList<String> l = hm.get(s);
 			Collections.sort(l, String.CASE_INSENSITIVE_ORDER);
 			String MSG = "**" + s.name + "** (" + l.size() + "): " + StringUtils.join(l, ", ");
-			String MSG2 = currentMessage + "\n" + MSG;
+			String MSG2 = currentMessage + "\n---\n" + MSG;
 			if (MSG2.length() > 2000)
 			{
 				channel.sendMessage(currentMessage).complete();
-				currentMessage = "-\n" + MSG;
+				currentMessage = ".\n---\n" + MSG;
 			}
 			else
 			{
