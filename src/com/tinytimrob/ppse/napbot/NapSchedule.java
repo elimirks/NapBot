@@ -170,7 +170,7 @@ public enum NapSchedule
 			"Sleep stage division: 1 SWS core, 2 REM core and 1 REM nap. 3-hour rhythm to line up with sleep-wake cycle length of each core sleep. Predicted to be more flexible than Dual Core sleep schedules because the core component of Tri Core consists of 3 cores to be shifted quite comfortably once adapted. ", //
 			"Unknown", //
 			"3 core sleeps are concentrated during the night to boost alertness for the whole day, so only one small nap in the afternoon is needed. 3-hour rhythm among each core sleep is recommended. Distance of wake time among each core sleep could be shortened if possible, but should not be less than 2 hours. Such a schedule will include a dusk core, night core, and dawn core.", //
-			"Virtually non-existent", //
+			"Very low", //
 			""), //
 	TRIMAXION("Trimaxion", "Trimaxion", NapRole.EXPERIMENTAL, true,//
 			"awkwb", //
