@@ -26,6 +26,7 @@ import com.tinytimrob.ppse.napbot.commands.CommandCreate;
 import com.tinytimrob.ppse.napbot.commands.CommandGet;
 import com.tinytimrob.ppse.napbot.commands.CommandHelp;
 import com.tinytimrob.ppse.napbot.commands.CommandMSet;
+import com.tinytimrob.ppse.napbot.commands.CommandMSetNick;
 import com.tinytimrob.ppse.napbot.commands.CommandMemberList;
 import com.tinytimrob.ppse.napbot.commands.CommandSay;
 import com.tinytimrob.ppse.napbot.commands.CommandSet;
@@ -111,6 +112,7 @@ public class NapBot extends Application
 		NapBotListener.register(new CommandMemberList());
 		NapBotListener.register(new CommandSay());
 		NapBotListener.register(new CommandMSet());
+		NapBotListener.register(new CommandMSetNick());
 
 		//=================================
 		// Connect to database
