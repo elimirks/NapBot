@@ -8,7 +8,7 @@ public enum NapRole
 	EVERYMAN("Everyman", "Everyman schedules"), //
 	BIPHASIC("Biphasic", "Biphasic schedules"), //
 	EXPERIMENTAL("Experimental", "Experimental/Unproven schedules"), //
-	MONOPHASIC("Monophasic", null);
+	MONOPHASIC("Monophasic", "Non-polyphasic schedules");
 
 	public final String name;
 	public final String helpName;

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import com.tinytimrob.ppse.napbot.NapBot;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.exceptions.PermissionException;
@@ -36,7 +37,7 @@ public class CommandMSetNick implements ICommand
 	}
 
 	@Override
-	public boolean execute(User moderator, TextChannel channel, String command, List<String> parameters) throws Exception
+	public boolean execute(User moderator, TextChannel channel, String command, List<String> parameters, Message message) throws Exception
 	{
 		if (parameters.size() < 2)
 		{

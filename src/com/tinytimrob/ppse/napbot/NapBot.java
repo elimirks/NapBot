@@ -21,15 +21,19 @@ import com.tinytimrob.common.LogWrapper;
 import com.tinytimrob.common.PlatformData;
 import com.tinytimrob.common.TerminationReason;
 import com.tinytimrob.ppse.napbot.commands.CommandAboutSchedule;
+import com.tinytimrob.ppse.napbot.commands.CommandAdaptedList;
 import com.tinytimrob.ppse.napbot.commands.CommandChartList;
 import com.tinytimrob.ppse.napbot.commands.CommandCreate;
 import com.tinytimrob.ppse.napbot.commands.CommandGet;
 import com.tinytimrob.ppse.napbot.commands.CommandHelp;
+import com.tinytimrob.ppse.napbot.commands.CommandMHelp;
 import com.tinytimrob.ppse.napbot.commands.CommandMSet;
 import com.tinytimrob.ppse.napbot.commands.CommandMSetNick;
 import com.tinytimrob.ppse.napbot.commands.CommandMemberList;
 import com.tinytimrob.ppse.napbot.commands.CommandSay;
+import com.tinytimrob.ppse.napbot.commands.CommandScheduleCount;
 import com.tinytimrob.ppse.napbot.commands.CommandSet;
+import com.tinytimrob.ppse.napbot.commands.CommandVeteranList;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -111,8 +115,12 @@ public class NapBot extends Application
 		NapBotListener.register(new CommandChartList());
 		NapBotListener.register(new CommandMemberList());
 		NapBotListener.register(new CommandSay());
+		NapBotListener.register(new CommandMHelp());
 		NapBotListener.register(new CommandMSet());
 		NapBotListener.register(new CommandMSetNick());
+		NapBotListener.register(new CommandScheduleCount());
+		NapBotListener.register(new CommandAdaptedList());
+		NapBotListener.register(new CommandVeteranList());
 
 		//=================================
 		// Connect to database

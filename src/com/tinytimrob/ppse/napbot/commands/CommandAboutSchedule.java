@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.tinytimrob.ppse.napbot.NapBot;
 import com.tinytimrob.ppse.napbot.NapSchedule;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 
@@ -32,7 +33,7 @@ public class CommandAboutSchedule implements ICommand
 	}
 
 	@Override
-	public boolean execute(User user, TextChannel channel, String command, List<String> parameters) throws Exception
+	public boolean execute(User user, TextChannel channel, String command, List<String> parameters, Message message) throws Exception
 	{
 		ArrayList<String> info = new ArrayList<String>();
 		info.add("`" + this.schedule.name + "` (" + this.schedule.longName + ") - <https://napchart.com/" + this.schedule.napchartID + "> - " + NapBot.CONFIGURATION.napchartUrlPrefix + this.schedule.napchartID);

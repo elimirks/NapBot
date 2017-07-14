@@ -74,7 +74,7 @@ public class NapBotListener extends ListenerAdapter
 						channel.sendMessage("You don't have permission to execute that command").complete();
 						return;
 					}
-					if (!icommand.execute(author, channel, command, split))
+					if (!icommand.execute(author, channel, command, split, message))
 					{
 						channel.sendMessage("I don't know what you mean by `" + content + "`. If you're not sure what you're doing, try typing `" + NapBot.CONFIGURATION.messagePrefix + "help`.").complete();
 						return;

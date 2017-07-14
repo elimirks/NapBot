@@ -225,14 +225,14 @@ public enum NapSchedule
 			"", //
 			""), //
 	MONOPHASIC("Monophasic", "Monophasic", NapRole.MONOPHASIC, true,//
-			"3sicn", //
-			"", //
-			"", //
-			"", //
-			"", //
-			"", //
-			"", //
-			"", //
+			"q6fkh", //
+			"Around 8 hours", //
+			"Unidentified in polyphasic world", //
+			"1 long core sleep", //
+			"One sleep per day, ideally sleeping in one long chunk through ALL graveyard hours (00:00-08:00)", //
+			"Walk in the park", //
+			"Core at midnight, wake at 8:00 AM", //
+			"Most popular type of sleep", //
 			""), //
 	UNKNOWN("Unknown", "Unknown", NapRole.MONOPHASIC, true,//
 			"", //

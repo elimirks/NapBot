@@ -13,6 +13,7 @@ import com.tinytimrob.ppse.napbot.NapRole;
 import com.tinytimrob.ppse.napbot.NapSchedule;
 import com.tinytimrob.ppse.napbot.NapchartHandler;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
@@ -35,7 +36,7 @@ public class CommandSet implements ICommand
 	}
 
 	@Override
-	public boolean execute(User user, TextChannel channel, String command, List<String> parameters) throws Exception
+	public boolean execute(User user, TextChannel channel, String command, List<String> parameters, Message message) throws Exception
 	{
 		if (parameters.size() == 1)
 		{

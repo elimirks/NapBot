@@ -10,6 +10,7 @@ import com.google.gson.annotations.Expose;
 import com.tinytimrob.common.Communicator;
 import com.tinytimrob.ppse.napbot.NapBot;
 import com.tinytimrob.ppse.napbot.NapchartHandler;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 
@@ -99,7 +100,7 @@ public class CommandCreate implements ICommand
 	}
 
 	@Override
-	public boolean execute(User user, TextChannel channel, String command, List<String> parameters) throws Exception
+	public boolean execute(User user, TextChannel channel, String command, List<String> parameters, Message message) throws Exception
 	{
 		if (parameters.size() < 1)
 		{

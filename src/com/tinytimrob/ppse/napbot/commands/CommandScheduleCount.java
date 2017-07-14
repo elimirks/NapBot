@@ -1,10 +1,7 @@
 package com.tinytimrob.ppse.napbot.commands;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
-import org.apache.commons.lang3.StringUtils;
 import com.tinytimrob.ppse.napbot.NapBot;
 import com.tinytimrob.ppse.napbot.NapSchedule;
 import net.dv8tion.jda.core.entities.Member;
@@ -12,24 +9,24 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 
-public class CommandMemberList implements ICommand
+public class CommandScheduleCount implements ICommand
 {
 	@Override
 	public String[] getCommandName()
 	{
-		return new String[] { "memberlist" };
+		return new String[] { "schedulecount" };
 	}
 
 	@Override
 	public String getCommandHelpUsage()
 	{
-		return "memberlist";
+		return "schedulecount";
 	}
 
 	@Override
 	public String getCommandHelpDescription()
 	{
-		return "list everyone by schedule";
+		return "count the number of people on each schedule";
 	}
 
 	@Override
@@ -41,10 +38,10 @@ public class CommandMemberList implements ICommand
 	@Override
 	public boolean execute(User user, TextChannel channel, String command, List<String> parameters, Message message) throws Exception
 	{
-		LinkedHashMap<NapSchedule, ArrayList<String>> hm = new LinkedHashMap<NapSchedule, ArrayList<String>>();
+		LinkedHashMap<NapSchedule, Integer> hm = new LinkedHashMap<NapSchedule, Integer>();
 		for (NapSchedule s : NapSchedule.values())
 		{
-			hm.put(s, new ArrayList<String>());
+			hm.put(s, 0);
 		}
 		List<Member> mlist = channel.getGuild().getMembers();
 		int memberCount = 0;
@@ -54,27 +51,24 @@ public class CommandMemberList implements ICommand
 			{
 				String en = m.getEffectiveName();
 				NapSchedule s = NapBot.determineScheduleFromMemberName(en);
-				ArrayList<String> l = hm.get(s);
-				String suf = " [" + s.name + "]";
-				if (en.endsWith(suf))
+				if (s != null)
 				{
-					en = en.substring(0, en.length() - suf.length());
+					int l = hm.get(s);
+					hm.put(s, (l + 1));
 				}
-				l.add(en.replace("_", "\\_").replace("*", "\\*"));
 				memberCount++;
 			}
 		}
 		String currentMessage = "There are **" + memberCount + "** members on this server.\n";
 		for (NapSchedule s : NapSchedule.values())
 		{
-			ArrayList<String> l = hm.get(s);
-			Collections.sort(l, String.CASE_INSENSITIVE_ORDER);
-			String MSG = "**" + s.name + "** (" + l.size() + "): " + StringUtils.join(l, ", ");
-			String MSG2 = currentMessage + "\n---\n" + MSG;
+			int l = hm.get(s);
+			String MSG = s.name + ": " + l;
+			String MSG2 = currentMessage + "\n" + MSG;
 			if (MSG2.length() > 2000)
 			{
 				channel.sendMessage(currentMessage).complete();
-				currentMessage = ".\n---\n" + MSG;
+				currentMessage = ".\n" + MSG;
 			}
 			else
 			{

@@ -3,6 +3,7 @@ package com.tinytimrob.ppse.napbot.commands;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import com.tinytimrob.ppse.napbot.NapBot;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 
@@ -21,11 +22,11 @@ public class CommandSay implements ICommand
 	}
 
 	@Override
-	public boolean execute(User user, TextChannel channel, String command, List<String> parameters) throws Exception
+	public boolean execute(User user, TextChannel channel, String command, List<String> parameters, Message message) throws Exception
 	{
 		if (parameters.isEmpty())
 			return false;
-
+		message.delete().queue();
 		channel.sendMessage(StringUtils.join(parameters, " ")).complete();
 		return true;
 	}

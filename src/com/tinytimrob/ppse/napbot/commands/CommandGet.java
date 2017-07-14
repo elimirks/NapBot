@@ -9,6 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.tinytimrob.ppse.napbot.NapBot;
 import com.tinytimrob.ppse.napbot.NapchartHandler;
 import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 
@@ -27,7 +28,7 @@ public class CommandGet implements ICommand
 	}
 
 	@Override
-	public boolean execute(User user, TextChannel channel, String command, List<String> parameters) throws Exception
+	public boolean execute(User user, TextChannel channel, String command, List<String> parameters, Message message) throws Exception
 	{
 		Member matchedMember = null;
 		if (!parameters.isEmpty())
@@ -95,7 +96,7 @@ public class CommandGet implements ICommand
 				output.add("Matched multiple users called `" + match + "`. Please choose one of the following:");
 				for (Member x : matchingMembers)
 				{
-					output.add(x.getUser().getName() + "#" + x.getUser().getDiscriminator());
+					output.add((x.getUser().getName() + "#" + x.getUser().getDiscriminator()).replace("_", "\\_").replace("*", "\\*"));
 				}
 				channel.sendMessage(StringUtils.join(output, '\n')).complete();
 				return true;
@@ -131,11 +132,11 @@ public class CommandGet implements ICommand
 			{
 				// yay.
 			}
-			channel.sendMessage("Napchart for **" + matchedMember.getEffectiveName() + "**: " + napchartLocation + napchartURL).complete();
+			channel.sendMessage("Napchart for **" + matchedMember.getEffectiveName().replace("_", "\\_").replace("*", "\\*") + "**: " + napchartLocation + napchartURL).complete();
 		}
 		else
 		{
-			channel.sendMessage("There is no napchart available for **" + matchedMember.getEffectiveName() + "**.").complete();
+			channel.sendMessage("There is no napchart available for **" + matchedMember.getEffectiveName().replace("_", "\\_").replace("*", "\\*") + "**.").complete();
 		}
 		return true;
 	}
