@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
+import com.tinytimrob.ppse.napbot.CommonPolyStuff;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.Role;
@@ -41,23 +42,27 @@ public class CommandAdaptedList implements ICommand
 	{
 		ArrayList<String> strings = new ArrayList<String>();
 		List<Member> mlist = channel.getGuild().getMembers();
+		int membercount = 0;
+		mem:
 		for (Member m : mlist)
 		{
 			if (!m.getUser().isBot())
 			{
+				membercount++;
 				List<Role> roles = m.getRoles();
 				for (Role r : roles)
 				{
-					if (r.getName().equalsIgnoreCase("Adapted"))
+					if (r.getName().startsWith("Adapted"))
 					{
 						String en = m.getEffectiveName();
 						strings.add(en.replace("_", "\\_").replace("*", "\\*"));
+						continue mem;
 					}
 				}
 			}
 		}
 		Collections.sort(strings, String.CASE_INSENSITIVE_ORDER);
-		String currentMessage = "There are **" + strings.size() + "** members on this server who have adapted to at least one schedule:\n" + StringUtils.join(strings, ", ");
+		String currentMessage = "There are **" + strings.size() + "** members on this server (" + CommonPolyStuff.formatPercentage(strings.size(), membercount, 2) + ") who have adapted to at least one schedule:\n" + StringUtils.join(strings, ", ");
 		channel.sendMessage(currentMessage).complete();
 		return true;
 	}

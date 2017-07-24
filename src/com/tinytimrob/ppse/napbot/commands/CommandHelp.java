@@ -75,7 +75,6 @@ public class CommandHelp implements ICommand
 		output.add("**To list all members sorted by schedule:** Type `" + NapBot.CONFIGURATION.messagePrefix + "memberlist`.");
 		output.add("**To list all members with napcharts set:** Type `" + NapBot.CONFIGURATION.messagePrefix + "chartlist`.");
 		output.add("**To list all members who have adapted to at least one schedule:** Type `" + NapBot.CONFIGURATION.messagePrefix + "adaptedlist`.");
-		output.add("**To list all veteran members:** Type `" + NapBot.CONFIGURATION.messagePrefix + "veteranlist`.");
 		output.add("-----------------------------------------------");
 		channel.sendMessage(StringUtils.join(output, '\n')).complete();
 		return true;

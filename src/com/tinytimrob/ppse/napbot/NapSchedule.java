@@ -42,7 +42,7 @@ public enum NapSchedule
 			"3-hour wake between 2 cores, dawn nap, noon nap and afternoon nap", //
 			"Very low", //
 			""), //
-	DC4("DC4", "Dual Core 4", NapRole.EXPERIMENTAL, true,//
+	DC4("DC4", "Dual Core 4", NapRole.DUAL_CORE, true,//
 			"qtny6", //
 			"4 hours 20 minutes", //
 			"Dual Core sleep", //
@@ -51,7 +51,7 @@ public enum NapSchedule
 			"Very hard", //
 			"Sleeps are scheduled to start every 4 hours which resembles Uberman. Transition step to E5 or Uberman and also useful as a fallback from E5 or Uberman should adaptation fail.", //
 			"Virtually non-existent, generally inferior to DC3 unless keeping Uberman rhythm is useful", //
-			"This is an **experimental schedule** currently being tested. Results unknown. No signs of successful adaptations."), //
+			""), //
 	DYMAXION("Dymaxion", "Dymaxion", NapRole.SUPERHUMAN, true,//
 			"zgqtz", //
 			"2 hours", //
@@ -92,7 +92,7 @@ public enum NapSchedule
 			"Core before midnight, 2 naps before the day starts, noon nap, afternoon nap", //
 			"Low", //
 			""), //
-	E5("E5", "Everyman 5", NapRole.EXPERIMENTAL, true,//
+	E5("E5", "Everyman 5", NapRole.EVERYMAN, true,//
 			"coamr", //
 			"3 hours 10 minutes", //
 			"Everyman sleep", //
@@ -101,7 +101,7 @@ public enum NapSchedule
 			"Extremely hard", //
 			"Sleeps are scheduled to start every 4 hours which resembles Uberman. Transition step between DC4 and Uberman and also useful as a fallback from Uberman should adaptation fail.", //
 			"Non-existent, generally inferior to E4 unless keeping Uberman rhythm is useful", //
-			"This is an **experimental schedule** which has not been tested. Results unknown. No signs of successful adaptations."), //
+			""), //
 	NAPTATION("Naptation", "Naptation", NapRole.SUPERHUMAN, true,//
 			"90uzo", //
 			"Up to 4 hours (up to 12 20-min naps per day)", //
@@ -172,6 +172,16 @@ public enum NapSchedule
 			"3 core sleeps are concentrated during the night to boost alertness for the whole day, so only one small nap in the afternoon is needed. 3-hour rhythm among each core sleep is recommended. Distance of wake time among each core sleep could be shortened if possible, but should not be less than 2 hours. Such a schedule will include a dusk core, night core, and dawn core.", //
 			"Very low", //
 			""), //
+	TC2("TC2", "Tri Core 2", NapRole.TRI_CORE, true,//
+			"43swa", //
+			"5 hours 10 minutes", //
+			"Tri core sleep", //
+			"3 core sleeps of minimum length, 2 naps", //
+			"Sleep stage division: 1 SWS core, 2 REM core and 2 REM naps", //
+			"Unknown", //
+			"Evening core, graveyard core, dawn core and 2 daytime naps", //
+			"Very low", //
+			""), //
 	TRIMAXION("Trimaxion", "Trimaxion", NapRole.EXPERIMENTAL, true,//
 			"awkwb", //
 			"3 hours", //
@@ -233,6 +243,16 @@ public enum NapSchedule
 			"Walk in the park", //
 			"Core at midnight, wake at 8:00 AM", //
 			"Most popular type of sleep", //
+			""), //
+	MUTATEDMONO("MutatedMono", "Mutated Mono", NapRole.SUPERHUMAN, true,//
+			"yig06", //
+			"", //
+			"", //
+			"", //
+			"", //
+			"", //
+			"", //
+			"", //
 			""), //
 	UNKNOWN("Unknown", "Unknown", NapRole.MONOPHASIC, true,//
 			"", //

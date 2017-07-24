@@ -33,7 +33,6 @@ import com.tinytimrob.ppse.napbot.commands.CommandMemberList;
 import com.tinytimrob.ppse.napbot.commands.CommandSay;
 import com.tinytimrob.ppse.napbot.commands.CommandScheduleCount;
 import com.tinytimrob.ppse.napbot.commands.CommandSet;
-import com.tinytimrob.ppse.napbot.commands.CommandVeteranList;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -120,7 +119,6 @@ public class NapBot extends Application
 		NapBotListener.register(new CommandMSetNick());
 		NapBotListener.register(new CommandScheduleCount());
 		NapBotListener.register(new CommandAdaptedList());
-		NapBotListener.register(new CommandVeteranList());
 
 		//=================================
 		// Connect to database

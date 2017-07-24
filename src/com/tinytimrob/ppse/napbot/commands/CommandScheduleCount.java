@@ -2,6 +2,7 @@ package com.tinytimrob.ppse.napbot.commands;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import com.tinytimrob.ppse.napbot.CommonPolyStuff;
 import com.tinytimrob.ppse.napbot.NapBot;
 import com.tinytimrob.ppse.napbot.NapSchedule;
 import net.dv8tion.jda.core.entities.Member;
@@ -63,7 +64,7 @@ public class CommandScheduleCount implements ICommand
 		for (NapSchedule s : NapSchedule.values())
 		{
 			int l = hm.get(s);
-			String MSG = s.name + ": " + l;
+			String MSG = "**" + s.name + ":** " + l + "  (" + CommonPolyStuff.formatPercentage(l, memberCount, 2) + ")";
 			String MSG2 = currentMessage + "\n" + MSG;
 			if (MSG2.length() > 2000)
 			{

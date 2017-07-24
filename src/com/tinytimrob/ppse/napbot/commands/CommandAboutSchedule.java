@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
+import com.tinytimrob.ppse.napbot.CommonPolyStuff;
 import com.tinytimrob.ppse.napbot.NapBot;
 import com.tinytimrob.ppse.napbot.NapSchedule;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 
@@ -54,12 +56,18 @@ public class CommandAboutSchedule implements ICommand
 		ArrayList<String> l = new ArrayList<String>();
 		List<Member> mlist = channel.getGuild().getMembers();
 		String suf = " [" + this.schedule.name + "]";
+		int attemptedcount = 0;
+		int adaptedcount = 0;
+		int membercount = 0;
 		for (Member m : mlist)
 		{
 			if (!m.getUser().isBot())
 			{
+				membercount++;
+
 				String en = m.getEffectiveName();
 				NapSchedule s = NapBot.determineScheduleFromMemberName(en);
+				// is this the user's current schedule?
 				if (s == this.schedule)
 				{
 					if (en.endsWith(suf))
@@ -68,11 +76,31 @@ public class CommandAboutSchedule implements ICommand
 					}
 					l.add(en.replace("_", "\\_").replace("*", "\\*"));
 				}
+				// did this user attempt this schedule in the past?
+				int tagcount = 0;
+				for (Role role : m.getRoles())
+				{
+					if (role.getName().equals("Attempted-" + this.schedule.name))
+					{
+						attemptedcount++;
+						tagcount++;
+					}
+					else if (role.getName().equals("Adapted-" + this.schedule.name))
+					{
+						attemptedcount++;
+						adaptedcount++;
+						tagcount++;
+					}
+				}
+				if (tagcount == 2)
+				{
+					attemptedcount--; // this user has both tags. a huge SIGH to whoever mistagged this person
+				}
 			}
 		}
 		Collections.sort(l, String.CASE_INSENSITIVE_ORDER);
-		String msg = (l.size() == 1 ? "is **1 member**" : l.size() == 0 ? "are **no members**" : "are **" + l.size() + " members**");
-		String currentMessage = "There " + msg + " currently on the schedule " + this.schedule.name;
+		String msg = (l.size() == 1 ? "is **1 member**" : l.size() == 0 ? "are **no members**" : "are **" + l.size() + " members**" + " (" + CommonPolyStuff.formatPercentage(l.size(), membercount, 2) + ")");
+		String currentMessage = "SCHEDULE STATISTICS:\n\nThere " + msg + " currently on the schedule " + this.schedule.name;
 		if (!l.isEmpty())
 		{
 			currentMessage = currentMessage + ":\n" + StringUtils.join(l, ", ");
@@ -81,6 +109,11 @@ public class CommandAboutSchedule implements ICommand
 		{
 			currentMessage = currentMessage + ".";
 		}
+		if (this.schedule != NapSchedule.MONOPHASIC)
+		{
+			currentMessage = currentMessage + "\n\n**Attempted:** " + attemptedcount + " / " + membercount + " (" + CommonPolyStuff.formatPercentage(attemptedcount, membercount, 2) + " of members)\n**Adapted:** " + adaptedcount + " / " + membercount + " (" + CommonPolyStuff.formatPercentage(adaptedcount, membercount, 2) + " of members, " + CommonPolyStuff.formatPercentage(adaptedcount, attemptedcount, 2) + " of those who attempted the schedule)";
+		}
+		// determine how many people attempted and/or adapted to this schedule
 		channel.sendMessage(currentMessage).complete();
 		return true;
 	}
