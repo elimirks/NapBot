@@ -8,10 +8,14 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import com.tinytimrob.ppse.napbot.NapBot;
 import com.tinytimrob.ppse.napbot.NapchartHandler;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.MessageEmbed.ImageInfo;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.entities.impl.MessageEmbedImpl;
 
 public class CommandGet implements ICommand
 {
@@ -122,17 +126,23 @@ public class CommandGet implements ICommand
 		{
 			String napchartLocation = rs.getString("link").replace("http://", "https://");
 			String napchartID = napchartLocation.substring(napchartLocation.length() - 5, napchartLocation.length());
-			String napchartURL = "";
 			try
 			{
 				NapchartHandler.getNapchart(napchartID);
-				napchartURL = " " + NapBot.CONFIGURATION.napchartUrlPrefix + napchartID;
 			}
 			catch (IOException e)
 			{
 				// yay.
 			}
-			channel.sendMessage("Napchart for **" + matchedMember.getEffectiveName().replace("_", "\\_").replace("*", "\\*") + "**: " + napchartLocation + napchartURL).complete();
+			MessageBuilder b = new MessageBuilder();
+			b.append("Napchart for **" + matchedMember.getEffectiveName().replace("_", "\\_").replace("*", "\\*") + "**:");
+			MessageEmbedImpl embedimpl = new MessageEmbedImpl();
+			embedimpl.setTitle("https://napchart.com/" + napchartID);
+			embedimpl.setUrl("https://napchart.com/" + napchartID);
+			embedimpl.setImage(new ImageInfo(NapBot.CONFIGURATION.napchartUrlPrefix + napchartID + "?" + NapBot.RESYNC_ID, null, 560, 560));
+			embedimpl.setFields(new ArrayList<MessageEmbed.Field>());
+			b.setEmbed(embedimpl);
+			channel.sendMessage(b.build()).complete();
 		}
 		else
 		{

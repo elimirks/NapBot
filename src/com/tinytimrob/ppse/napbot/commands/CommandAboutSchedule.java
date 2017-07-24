@@ -7,11 +7,15 @@ import org.apache.commons.lang3.StringUtils;
 import com.tinytimrob.ppse.napbot.CommonPolyStuff;
 import com.tinytimrob.ppse.napbot.NapBot;
 import com.tinytimrob.ppse.napbot.NapSchedule;
+import net.dv8tion.jda.core.MessageBuilder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.MessageEmbed.ImageInfo;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.entities.impl.MessageEmbedImpl;
 
 public class CommandAboutSchedule implements ICommand
 {
@@ -38,7 +42,7 @@ public class CommandAboutSchedule implements ICommand
 	public boolean execute(User user, TextChannel channel, String command, List<String> parameters, Message message) throws Exception
 	{
 		ArrayList<String> info = new ArrayList<String>();
-		info.add("`" + this.schedule.name + "` (" + this.schedule.longName + ") - <https://napchart.com/" + this.schedule.napchartID + "> - " + NapBot.CONFIGURATION.napchartUrlPrefix + this.schedule.napchartID);
+		info.add("`" + this.schedule.name + "` (" + this.schedule.longName + ")"); // - <https://napchart.com/" + this.schedule.napchartID + "> - " + NapBot.CONFIGURATION.napchartUrlPrefix + this.schedule.napchartID);
 		if (!this.schedule.experimental.isEmpty())
 		{
 			info.add("-----------------------------------------------");
@@ -52,7 +56,15 @@ public class CommandAboutSchedule implements ICommand
 		info.add("- **Adaptation difficulty:** " + this.schedule.difficulty);
 		info.add("- **Ideal scheduling:** " + this.schedule.scheduling);
 		info.add("- **Popularity:** " + this.schedule.popularity);
-		channel.sendMessage(StringUtils.join(info, "\n")).complete();
+		MessageBuilder b = new MessageBuilder();
+		b.append(StringUtils.join(info, "\n"));
+		MessageEmbedImpl embedimpl = new MessageEmbedImpl();
+		embedimpl.setTitle("https://napchart.com/" + this.schedule.napchartID);
+		embedimpl.setUrl("https://napchart.com/" + this.schedule.napchartID);
+		embedimpl.setImage(new ImageInfo(NapBot.CONFIGURATION.napchartUrlPrefix + this.schedule.napchartID + "?" + NapBot.RESYNC_ID, null, 560, 560));
+		embedimpl.setFields(new ArrayList<MessageEmbed.Field>());
+		b.setEmbed(embedimpl);
+		channel.sendMessage(b.build()).complete();
 		ArrayList<String> l = new ArrayList<String>();
 		List<Member> mlist = channel.getGuild().getMembers();
 		String suf = " [" + this.schedule.name + "]";
@@ -113,7 +125,6 @@ public class CommandAboutSchedule implements ICommand
 		{
 			currentMessage = currentMessage + "\n\n**Attempted:** " + attemptedcount + " / " + membercount + " (" + CommonPolyStuff.formatPercentage(attemptedcount, membercount, 2) + " of members)\n**Adapted:** " + adaptedcount + " / " + membercount + " (" + CommonPolyStuff.formatPercentage(adaptedcount, membercount, 2) + " of members, " + CommonPolyStuff.formatPercentage(adaptedcount, attemptedcount, 2) + " of those who attempted the schedule)";
 		}
-		// determine how many people attempted and/or adapted to this schedule
 		channel.sendMessage(currentMessage).complete();
 		return true;
 	}

@@ -43,8 +43,7 @@ public class CommandAdaptedList implements ICommand
 		ArrayList<String> strings = new ArrayList<String>();
 		List<Member> mlist = channel.getGuild().getMembers();
 		int membercount = 0;
-		mem:
-		for (Member m : mlist)
+		mem: for (Member m : mlist)
 		{
 			if (!m.getUser().isBot())
 			{

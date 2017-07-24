@@ -57,6 +57,9 @@ public class NapBot extends Application
 	/** Database connecton */
 	public static Connection connection = null;
 
+	/** Discord Resync ID */
+	public static final int RESYNC_ID = 1;
+
 	/** Jetty server */
 	static Server SERVER;
 

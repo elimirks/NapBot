@@ -91,6 +91,9 @@ public class Communicator
 					throw new BadRequestException(response.message);
 				}
 			}
+			in = connection.getErrorStream();
+			String responseString = IOUtils.toString(in, CommonUtils.charsetUTF8);
+			System.out.println(responseString);
 			throw new BadResponseException(responseCode);
 		}
 		catch (Throwable t)
