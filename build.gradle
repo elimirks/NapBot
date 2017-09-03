@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
-sourceCompatibility = 1.7
+sourceCompatibility = 1.8
 
 repositories {
 	jcenter()
@@ -46,3 +46,17 @@ dependencies {
 	compile 'net.dv8tion:JDA:3.0.0_191'
 	compile 'org.xerial:sqlite-jdbc:3.16.1'
 }
+
+task copyLibs(type: Copy) {
+	into "${buildDir}/libs/lib"
+	from configurations.compile.collect { it }
+}
+jar {
+  manifest {
+    attributes(
+      'Class-Path': configurations.compile.collect { "lib/" + it.getName() }.join(' '),
+      'Main-Class': 'com.tinytimrob.ppse.napbot.NapBot'
+    )
+  }
+}
+jar.dependsOn copyLibs
