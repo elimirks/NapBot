@@ -125,6 +125,7 @@ public class CommandGet implements ICommand
 		if (rs.next())
 		{
 			String napchartLocation = rs.getString("link").replace("http://", "https://");
+			String napchartTimestamp = rs.getString("time");
 			String napchartID = napchartLocation.substring(napchartLocation.length() - 5, napchartLocation.length());
 			try
 			{
@@ -135,7 +136,11 @@ public class CommandGet implements ICommand
 				// yay.
 			}
 			MessageBuilder b = new MessageBuilder();
-			b.append("Napchart for **" + matchedMember.getEffectiveName().replace("_", "\\_").replace("*", "\\*") + "**:");
+			b.append("Napchart for **" + matchedMember.getEffectiveName().replace("_", "\\_").replace("*", "\\*") + "**");
+            if (napchartTimestamp != null) {
+                b.append(" (since " + napchartTimestamp + " UTC)");
+            }
+            b.append(":");
 			MessageEmbedImpl embedimpl = new MessageEmbedImpl();
 			embedimpl.setTitle("https://napchart.com/" + napchartID);
 			embedimpl.setUrl("https://napchart.com/" + napchartID);

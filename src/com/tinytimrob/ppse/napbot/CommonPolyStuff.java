@@ -18,7 +18,9 @@ public class CommonPolyStuff
 	public static void setNapchart(User user, TextChannel channel, String napchart) throws SQLException
 	{
 		napchart = napchart.replace("http://", "https://");
-		PreparedStatement ps = NapBot.connection.prepareStatement("INSERT OR REPLACE INTO napcharts (id, link) VALUES (?, ?)");
+		PreparedStatement ps =
+			NapBot.connection.prepareStatement("INSERT OR REPLACE INTO napcharts " +
+											   "(id, link, time) VALUES (?, ?, time('now'))");
 		ps.setLong(1, user.getIdLong());
 		ps.setString(2, napchart);
 		ps.executeUpdate();
