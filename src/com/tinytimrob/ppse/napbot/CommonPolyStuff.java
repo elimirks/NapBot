@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import org.apache.commons.lang3.StringUtils;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -20,9 +23,10 @@ public class CommonPolyStuff
 		napchart = napchart.replace("http://", "https://");
 		PreparedStatement ps =
 			NapBot.connection.prepareStatement("INSERT OR REPLACE INTO napcharts " +
-											   "(id, link, time) VALUES (?, ?, time('now'))");
+											   "(id, link, time) VALUES (?, ?, ?)");
 		ps.setLong(1, user.getIdLong());
 		ps.setString(2, napchart);
+		ps.setTimestamp(3, new Timestamp((new Date()).getTime()));
 		ps.executeUpdate();
 		try
 		{
@@ -32,6 +36,17 @@ public class CommonPolyStuff
 		{
 			e.printStackTrace();
 		}
+	}
+
+	public static void setNapchartTimestamp(User user, Timestamp timestamp) throws SQLException
+	{
+		PreparedStatement ps =
+			NapBot.connection.prepareStatement("UPDATE napcharts " +
+											   "SET time = ? " +
+											   "WHERE id = ?");
+		ps.setTimestamp(1, timestamp);
+		ps.setLong(2, user.getIdLong());
+		ps.executeUpdate();
 	}
 
 	public static String removeNapchart(User user, TextChannel channel) throws SQLException
@@ -157,5 +172,77 @@ public class CommonPolyStuff
 	{
 		float c = b == 0 ? 0 : a / b;
 		return String.format("%." + digits + "f", c * 100) + "%";
+	}
+
+	public static Member findMemberMatch(TextChannel channel, String match)
+	{
+		List<Member> matchingMembers = new ArrayList<Member>();
+
+		if (match.startsWith("<@!") && match.contains(">"))
+		{
+			// match based on @mention
+			String id = match.substring(3, match.indexOf(">"));
+			Member member = channel.getGuild().getMemberById(id);
+			if (member != null)
+			{
+				matchingMembers.add(member);
+			}
+		}
+		else if (match.startsWith("<@") && match.contains(">"))
+		{
+			// why do some snowflakes start with ! and some not? wtf?
+			String id = match.substring(2, match.indexOf(">"));
+			Member member = channel.getGuild().getMemberById(id);
+			if (member != null)
+			{
+				matchingMembers.add(member);
+			}
+		}
+		else
+		{
+			// look up the user by name. sadly we can't use the built in "effective match" because of the sleep schedules being part of nickname
+			// so we're going to have to do this the old fashioned way
+			for (Member member : channel.getGuild().getMembers())
+			{
+				String s = member.getEffectiveName();
+				if (s.contains("["))
+				{
+					s = s.substring(0, s.lastIndexOf("[")).trim();
+				}
+				if (s.equalsIgnoreCase(match))
+				{
+					matchingMembers.add(member);
+				}
+				else if (member.getUser().getName().equalsIgnoreCase(match))
+				{
+					matchingMembers.add(member);
+				}
+				else if ((member.getUser().getName() + "#" + member.getUser().getDiscriminator()).equalsIgnoreCase(match))
+				{
+					matchingMembers.add(member);
+				}
+			}
+		}
+
+		if (matchingMembers.isEmpty())
+		{
+			channel.sendMessage("I wasn't able to find anyone called `" + match + "` on the server.").complete();
+			return null;
+		}
+		else if (matchingMembers.size() > 1)
+		{
+			ArrayList<String> output = new ArrayList<String>();
+			output.add("Matched multiple users called `" + match + "`. Please choose one of the following:");
+			for (Member x : matchingMembers)
+			{
+				output.add(x.getUser().getName() + "#" + x.getUser().getDiscriminator());
+			}
+			channel.sendMessage(StringUtils.join(output, '\n')).complete();
+			return null;
+		}
+		else
+		{
+			return matchingMembers.get(0);
+		}
 	}
 }

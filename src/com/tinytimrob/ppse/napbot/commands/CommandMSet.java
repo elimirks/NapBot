@@ -1,9 +1,7 @@
 package com.tinytimrob.ppse.napbot.commands;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-import org.apache.commons.lang3.StringUtils;
 import com.tinytimrob.ppse.napbot.CommonPolyStuff;
 import com.tinytimrob.ppse.napbot.NapBot;
 import com.tinytimrob.ppse.napbot.NapSchedule;
@@ -38,81 +36,20 @@ public class CommandMSet implements ICommand
 
 		String schedule = parameters.get(0);
 		String napchart = parameters.get(1);
-		Member matchedMember = null;
+		String memberString = "";
 
-		ArrayList<String> newlist = new ArrayList<String>();
 		for (int i = 2; i < parameters.size(); i++)
 		{
-			newlist.add(parameters.get(i));
-		}
-		List<Member> matchingMembers = new ArrayList<Member>();
-		String match = StringUtils.join(newlist, " ");
-		if (match.startsWith("<@!") && match.contains(">"))
-		{
-			// match based on @mention
-			String id = match.substring(3, match.indexOf(">"));
-			Member member = channel.getGuild().getMemberById(id);
-			if (member != null)
-			{
-				matchingMembers.add(member);
-			}
-		}
-		else if (match.startsWith("<@") && match.contains(">"))
-		{
-			// why do some snowflakes start with ! and some not? wtf?
-			String id = match.substring(2, match.indexOf(">"));
-			Member member = channel.getGuild().getMemberById(id);
-			if (member != null)
-			{
-				matchingMembers.add(member);
-			}
-		}
-		else
-		{
-			// look up the user by name. sadly we can't use the built in "effective match" because of the sleep schedules being part of nickname
-			// so we're going to have to do this the old fashioned way
-			for (Member member : channel.getGuild().getMembers())
-			{
-				String s = member.getEffectiveName();
-				if (s.contains("["))
-				{
-					s = s.substring(0, s.lastIndexOf("[")).trim();
-				}
-				if (s.equalsIgnoreCase(match))
-				{
-					matchingMembers.add(member);
-				}
-				else if (member.getUser().getName().equalsIgnoreCase(match))
-				{
-					matchingMembers.add(member);
-				}
-				else if ((member.getUser().getName() + "#" + member.getUser().getDiscriminator()).equalsIgnoreCase(match))
-				{
-					matchingMembers.add(member);
-				}
-			}
+			memberString = memberString + parameters.get(i);
 		}
 
-		if (matchingMembers.isEmpty())
+		Member matchedMember = CommonPolyStuff.findMemberMatch(channel, memberString);
+
+		if (matchedMember == null)
 		{
-			channel.sendMessage("I wasn't able to find anyone called `" + match + "` on the server.").complete();
 			return true;
 		}
-		else if (matchingMembers.size() > 1)
-		{
-			ArrayList<String> output = new ArrayList<String>();
-			output.add("Matched multiple users called `" + match + "`. Please choose one of the following:");
-			for (Member x : matchingMembers)
-			{
-				output.add(x.getUser().getName() + "#" + x.getUser().getDiscriminator());
-			}
-			channel.sendMessage(StringUtils.join(output, '\n')).complete();
-			return true;
-		}
-		else
-		{
-			matchedMember = matchingMembers.get(0);
-		}
+
 		User user = matchedMember.getUser();
 
 		if (!napchart.equals("none") && !this.NAPCHART_PATTERN.matcher(napchart).matches())
@@ -155,7 +92,7 @@ public class CommandMSet implements ICommand
 	@Override
 	public String getCommandHelpUsage()
 	{
-		return "set [schedule-name] [napchart-link]";
+		return "set [schedule-name] [napchart-link] [username]";
 	}
 
 	@Override

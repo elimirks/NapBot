@@ -3,7 +3,10 @@ package com.tinytimrob.ppse.napbot.commands;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import com.tinytimrob.ppse.napbot.NapBot;
@@ -125,8 +128,8 @@ public class CommandGet implements ICommand
 		if (rs.next())
 		{
 			String napchartLocation = rs.getString("link").replace("http://", "https://");
-			String napchartTimestamp = rs.getString("time");
 			String napchartID = napchartLocation.substring(napchartLocation.length() - 5, napchartLocation.length());
+			Timestamp napchartTimestamp = rs.getTimestamp("time");
 			try
 			{
 				NapchartHandler.getNapchart(napchartID);
@@ -138,7 +141,8 @@ public class CommandGet implements ICommand
 			MessageBuilder b = new MessageBuilder();
 			b.append("Napchart for **" + matchedMember.getEffectiveName().replace("_", "\\_").replace("*", "\\*") + "**");
             if (napchartTimestamp != null) {
-                b.append(" (since " + napchartTimestamp + " UTC)");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                b.append(" (since " + formatter.format(napchartTimestamp) + " UTC)");
             }
             b.append(":");
 			MessageEmbedImpl embedimpl = new MessageEmbedImpl();
